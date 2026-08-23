@@ -93,12 +93,36 @@ class SecondaryDragController(private val context: Context) {
 
     fun isDragging(): Boolean = isDragging
 
+    // [Jalur Class]: com.silauncer.cepat.secondarydisplay.SecondaryDragController
+    // [Penjelasan]: Membuat bitmap representasi view untuk drag layer sekunder secara aman tanpa memicu RippleDrawable STYLE_PATTERNED error pada software canvas
     private fun createViewBitmap(view: View): Bitmap? {
         val width = view.width.takeIf { it > 0 } ?: 100
         val height = view.height.takeIf { it > 0 } ?: 100
         val bitmap = Bitmap.createBitmap(width, height, Bitmap.Config.ARGB_8888)
         val canvas = Canvas(bitmap)
-        view.draw(canvas)
+
+        val background = view.background
+        val wasPressed = view.isPressed
+        val wasSelected = view.isSelected
+        val wasActivated = view.isActivated
+        try {
+            if (wasPressed) view.isPressed = false
+            if (wasSelected) view.isSelected = false
+            if (wasActivated) view.isActivated = false
+            background?.jumpToCurrentState()
+
+            if (background is android.graphics.drawable.RippleDrawable) {
+                view.background = null
+                view.draw(canvas)
+                view.background = background
+            } else {
+                view.draw(canvas)
+            }
+        } finally {
+            if (wasPressed) view.isPressed = wasPressed
+            if (wasSelected) view.isSelected = wasSelected
+            if (wasActivated) view.isActivated = wasActivated
+        }
         return bitmap
     }
 }

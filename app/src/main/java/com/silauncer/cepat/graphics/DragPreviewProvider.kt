@@ -29,12 +29,37 @@ open class DragPreviewProvider(
 
     /**
      * Menggambar view ke dalam kanvas tujuan dengan skala tertentu.
+     * // [Jalur Class]: com.silauncer.cepat.graphics.DragPreviewProvider
+     * // [Penjelasan]: Menangani penggambaran view secara aman pada kanvas software tanpa memicu error RippleDrawable STYLE_PATTERNED
      */
     protected open fun drawDragView(destCanvas: Canvas, scale: Float) {
         val saveCount = destCanvas.save()
         destCanvas.scale(scale, scale)
         destCanvas.translate(blurSizeOutline / 2f, blurSizeOutline / 2f)
-        view.draw(destCanvas)
+
+        val background = view.background
+        val wasPressed = view.isPressed
+        val wasSelected = view.isSelected
+        val wasActivated = view.isActivated
+        try {
+            if (wasPressed) view.isPressed = false
+            if (wasSelected) view.isSelected = false
+            if (wasActivated) view.isActivated = false
+            background?.jumpToCurrentState()
+
+            if (background is android.graphics.drawable.RippleDrawable) {
+                view.background = null
+                view.draw(destCanvas)
+                view.background = background
+            } else {
+                view.draw(destCanvas)
+            }
+        } finally {
+            if (wasPressed) view.isPressed = wasPressed
+            if (wasSelected) view.isSelected = wasSelected
+            if (wasActivated) view.isActivated = wasActivated
+        }
+
         destCanvas.restoreToCount(saveCount)
     }
 

@@ -1,6 +1,15 @@
 # Progress Status: Silauncer
 
 ## SELESAI
+- **Perbaikan Error `RippleDrawable.STYLE_PATTERNED` pada Non-Hardware Accelerated Canvas (Selesai)**:
+  - **Akar Masalah**: Saat membuat representasi bitmap drag preview via `view.draw(canvas)` pada kanvas software (`Bitmap.createBitmap` + `Canvas(bitmap)`), view dengan background `RippleDrawable` yang berada dalam state `isPressed` / aktif memicu `STYLE_PATTERNED` RenderNode animation yang tidak didukung pada software canvas dan mencetak error logcat `The RippleDrawable.STYLE_PATTERNED animation is not supported for a non-hardware accelerated Canvas. Skipping animation.`
+  - **Solusi**:
+    * Memperbarui `DragView.createFromView` di `DragView.kt`, `DragPreviewProvider.drawDragView` di `DragPreviewProvider.kt`, `ShortcutDragPreviewProvider.createDrawable` di `ShortcutDragPreviewProvider.kt`, dan `SecondaryDragController.createViewBitmap` di `SecondaryDragController.kt` untuk secara aman menonaktifkan state pressed (`view.isPressed = false`), memanggil `background?.jumpToCurrentState()`, dan melepaskan background `RippleDrawable` sementara saat `view.draw(canvas)` dieksekusi pada kanvas software sebelum mengembalikannya secara instan.
+    * Menambahkan `android:hardwareAccelerated="true"` pada tag `<application>` di `AndroidManifest.xml`.
+  - **Validasi**:
+    * `compile_applet` PASS / Succeeded.
+    * `gradle :app:testDebugUnitTest` 100% PASS (35 actionable tasks, 0 failure).
+
 - **Perbaikan Subsistem Touch, Long Press, Gesture, Drag & Drop, dan Folder Drag-Out (Selesai)**:
   - **Normalisasi Ruang Koordinat Layar & Root Decor View**:
     * Memperbarui `DragView.show` dan `DragView.move` di `DragView.kt` untuk menormalkan koordinat sentuhan `rawX`/`rawY` terhadap `root.getLocationOnScreen()` guna memastikan `translationX` dan `translationY` berada dalam ruang koordinat lokal parent container yang presisi tanpa pergeseran sumbu (*coordinate drift*).

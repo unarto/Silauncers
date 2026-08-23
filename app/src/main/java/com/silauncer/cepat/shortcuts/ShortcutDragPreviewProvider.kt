@@ -33,7 +33,9 @@ class ShortcutDragPreviewProvider(
         val canvas = Canvas(bitmap)
 
         val background = iconView.background
-        if (background != null) {
+        // [Jalur Class]: com.silauncer.cepat.shortcuts.ShortcutDragPreviewProvider
+        // [Penjelasan]: Mencegah pemanggilan draw pada RippleDrawable di atas canvas software untuk menghindari error RippleDrawable.STYLE_PATTERNED
+        if (background != null && background !is android.graphics.drawable.RippleDrawable) {
             val bounds = getDrawableBounds(background)
             canvas.save()
             canvas.translate((blurSizeOutline / 2).toFloat(), (blurSizeOutline / 2).toFloat())
@@ -43,10 +45,23 @@ class ShortcutDragPreviewProvider(
             background.draw(canvas)
             canvas.restore()
         } else {
-            // Gambar langsung dari view jika background tidak tersedia
+            // Gambar langsung dari view jika background tidak tersedia atau merupakan RippleDrawable
             canvas.save()
             canvas.translate((blurSizeOutline / 2).toFloat(), (blurSizeOutline / 2).toFloat())
-            iconView.draw(canvas)
+            val wasPressed = iconView.isPressed
+            try {
+                if (wasPressed) iconView.isPressed = false
+                background?.jumpToCurrentState()
+                if (background is android.graphics.drawable.RippleDrawable) {
+                    iconView.background = null
+                    iconView.draw(canvas)
+                    iconView.background = background
+                } else {
+                    iconView.draw(canvas)
+                }
+            } finally {
+                if (wasPressed) iconView.isPressed = wasPressed
+            }
             canvas.restore()
         }
 

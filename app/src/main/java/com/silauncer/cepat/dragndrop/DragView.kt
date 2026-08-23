@@ -62,13 +62,35 @@ class DragView(
 
     companion object {
         // [Jalur Class]: com.silauncer.cepat.dragndrop.DragView
-        // [Penjelasan]: Fungsi utilitas untuk merender representasi visual View menjadi Bitmap ARGB_8888 yang tajam dan menghitung registration offset presisi
+        // [Penjelasan]: Fungsi utilitas untuk merender representasi visual View menjadi Bitmap ARGB_8888 yang tajam dan menghitung registration offset presisi tanpa memicu error RippleDrawable STYLE_PATTERNED pada software canvas
         fun createFromView(view: View, touchRawX: Float, touchRawY: Float): DragView {
             val width = if (view.width > 0) view.width else 100
             val height = if (view.height > 0) view.height else 100
             val bitmap = Bitmap.createBitmap(width, height, Bitmap.Config.ARGB_8888)
             val canvas = Canvas(bitmap)
-            view.draw(canvas)
+
+            val background = view.background
+            val wasPressed = view.isPressed
+            val wasSelected = view.isSelected
+            val wasActivated = view.isActivated
+            try {
+                if (wasPressed) view.isPressed = false
+                if (wasSelected) view.isSelected = false
+                if (wasActivated) view.isActivated = false
+                background?.jumpToCurrentState()
+
+                if (background is android.graphics.drawable.RippleDrawable) {
+                    view.background = null
+                    view.draw(canvas)
+                    view.background = background
+                } else {
+                    view.draw(canvas)
+                }
+            } finally {
+                if (wasPressed) view.isPressed = wasPressed
+                if (wasSelected) view.isSelected = wasSelected
+                if (wasActivated) view.isActivated = wasActivated
+            }
 
             val loc = IntArray(2)
             view.getLocationOnScreen(loc)
