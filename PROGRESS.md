@@ -1,6 +1,17 @@
 # Progress Status: Silauncer
 
 ## SELESAI
+- **Refaktorisasi Arsitektur Subsistem Drag & Drop (SRP & Clean Code) (Selesai)**:
+  - **Pemisahan Tanggung Jawab (Single Responsibility Principle)**:
+    * Mengekstrak pengelolaan DropTargetBar (overlay "Hapus" & "Info aplikasi", hit-test koordinat kursor, animasi slide-in/slide-out, dan haptik) ke dalam `DropTargetBarController.kt`.
+    * Mengekstrak kalkulasi animasi fisika pegas (SpringAnimation Physics) untuk landing bounce dan item terdisolusi saat auto-disband ke dalam `DragSpringAnimationHelper.kt`.
+    * Menyederhanakan `GridDragAndDropHandler.kt` menjadi orkestrator yang bersih dan modular, memecah fungsi monolitik `handleDragTouchEvent` dan `finishDrop` menjadi sub-metode granular (`handleDragMove`, `handleFolderItemDrop`, `handleWorkspaceRemoveDrop`, `handleWorkspaceInfoDrop`, `handleCreateFolderDrop`, `handleWorkspaceReorderDrop`).
+  - **Keamanan Memori & Lifecycle**:
+    * Menambahkan pembersihan referensi View eksplisit pada `DropTargetBarController.cleanup()` dan `GridDragAndDropHandler.dismissPopups()` untuk mencegah kebocoran memori (Window/View Memory Leak).
+  - **Validasi**:
+    * `compile_applet` PASS / Succeeded.
+    * `gradle :app:testDebugUnitTest` 100% PASS (35 actionable tasks, 0 failure).
+
 - **Perbaikan Error `RippleDrawable.STYLE_PATTERNED` pada Non-Hardware Accelerated Canvas (Selesai)**:
   - **Akar Masalah**: Saat membuat representasi bitmap drag preview via `view.draw(canvas)` pada kanvas software (`Bitmap.createBitmap` + `Canvas(bitmap)`), view dengan background `RippleDrawable` yang berada dalam state `isPressed` / aktif memicu `STYLE_PATTERNED` RenderNode animation yang tidak didukung pada software canvas dan mencetak error logcat `The RippleDrawable.STYLE_PATTERNED animation is not supported for a non-hardware accelerated Canvas. Skipping animation.`
   - **Solusi**:
