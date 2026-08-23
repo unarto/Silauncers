@@ -15,9 +15,15 @@ import com.silauncer.cepat.launcher.LauncherItem
  */
 class DragSpringAnimationHelper {
 
+    companion object {
+        const val SCALE_LANDING_BOUNCE_DEFAULT = 1.08f
+        const val SCALE_LANDING_BOUNCE_DRAGOUT = 1.18f
+        const val SCALE_DISSOLVED_DEFAULT = 0.85f
+    }
+
     // [Jalur Class]: com.silauncer.cepat.dragndrop.DragSpringAnimationHelper
     // [Penjelasan]: Menerapkan animasi pegas mikro (bounce effect) pada view item yang baru dijatuhkan pada sel target
-    fun animateLandingBounce(targetView: View, initialScale: Float = 1.08f) {
+    fun animateLandingBounce(targetView: View, initialScale: Float = SCALE_LANDING_BOUNCE_DEFAULT) {
         targetView.scaleX = initialScale
         targetView.scaleY = initialScale
         val springX = SpringAnimation(targetView, DynamicAnimation.SCALE_X, 1.0f).apply {
@@ -34,7 +40,7 @@ class DragSpringAnimationHelper {
 
     // [Jalur Class]: com.silauncer.cepat.dragndrop.DragSpringAnimationHelper
     // [Penjelasan]: Menerapkan efek pegas pada item sisa dari folder yang dibubarkan secara otomatis (auto-disband)
-    fun animateDissolvedItem(dissolvedView: View, initialScale: Float = 0.85f) {
+    fun animateDissolvedItem(dissolvedView: View, initialScale: Float = SCALE_DISSOLVED_DEFAULT) {
         dissolvedView.scaleX = initialScale
         dissolvedView.scaleY = initialScale
         val sX = SpringAnimation(dissolvedView, DynamicAnimation.SCALE_X, 1.0f).apply {
@@ -63,7 +69,7 @@ class DragSpringAnimationHelper {
             val animIndex = if (droppedIndex != -1) droppedIndex else targetPos
             val vh = recyclerView.findViewHolderForAdapterPosition(animIndex)
             vh?.itemView?.let { targetView ->
-                animateLandingBounce(targetView, initialScale = 1.18f)
+                animateLandingBounce(targetView, initialScale = SCALE_LANDING_BOUNCE_DRAGOUT)
             }
 
             val remainingApp = folderInfo.getSingleRemainingApp()
@@ -79,7 +85,7 @@ class DragSpringAnimationHelper {
                 if (dissolvedIndex != -1 && dissolvedIndex != animIndex) {
                     val vhDissolved = recyclerView.findViewHolderForAdapterPosition(dissolvedIndex)
                     vhDissolved?.itemView?.let { dView ->
-                        animateDissolvedItem(dView, initialScale = 0.85f)
+                        animateDissolvedItem(dView, initialScale = SCALE_DISSOLVED_DEFAULT)
                     }
                 }
             }

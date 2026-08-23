@@ -1,4 +1,4 @@
-package com.silauncer.cepat.home
+package com.silauncer.cepat.touch
 
 import android.graphics.Canvas
 import android.widget.EdgeEffect
@@ -7,11 +7,16 @@ import androidx.dynamicanimation.animation.SpringForce
 import androidx.recyclerview.widget.RecyclerView
 
 /**
- * Utilitas over-scroll ringan dengan efek spring,
- * mengambil inspirasi dari responsivitas over-scroll modern tanpa membebani thread.
+ * SpringOverScrollHelper
+ *
+ * // [Jalur Class]: com.silauncer.cepat.touch.SpringOverScrollHelper
+ * // [Penjelasan]: Utilitas over-scroll dinamis berbasis DynamicAnimation SpringAnimation untuk RecyclerView.
+ * Menggantikan efek glow biru platform dengan pergeseran translasi fisik pegas yang mulus.
  */
-object OverScroll {
+object SpringOverScrollHelper {
 
+    // [Jalur Class]: com.silauncer.cepat.touch.SpringOverScrollHelper
+    // [Penjelasan]: Memasang custom EdgeEffectFactory pada RecyclerView untuk mensimulasikan overscroll spring yang reaktif
     fun setup(recyclerView: RecyclerView) {
         recyclerView.edgeEffectFactory = object : RecyclerView.EdgeEffectFactory() {
             override fun createEdgeEffect(view: RecyclerView, direction: Int): EdgeEffect {

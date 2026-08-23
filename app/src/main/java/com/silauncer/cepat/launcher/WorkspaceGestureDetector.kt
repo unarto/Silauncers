@@ -9,6 +9,7 @@ import androidx.recyclerview.widget.RecyclerView
 import com.silauncer.cepat.apps.AppActionHandler
 import com.silauncer.cepat.apps.AppInfo
 import com.silauncer.cepat.home.AppAdapter
+import com.silauncer.cepat.touch.CheckLongPressHelper
 import kotlin.math.abs
 
 /**

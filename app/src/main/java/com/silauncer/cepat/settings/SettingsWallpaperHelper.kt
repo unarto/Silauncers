@@ -12,7 +12,9 @@ import android.os.Build
 import android.view.View
 import android.view.WindowManager
 import android.widget.ImageView
+import androidx.core.content.ContextCompat
 import androidx.core.view.WindowCompat
+import com.silauncer.cepat.R
 
 /**
  * SettingsWallpaperHelper
@@ -101,14 +103,16 @@ class SettingsWallpaperHelper {
             }
 
             // [Jalur Class]: com.silauncer.cepat.settings.SettingsWallpaperHelper
-            // [Penjelasan]: Lapisan scrim overlay transparan (20% opacity / #33000000) agar wallpaper tetap tampak dinamis dan kartu TreeView tetap kontras.
-            scrimView.setBackgroundColor(SCRIM_OVERLAY_COLOR)
+            // [Penjelasan]: Lapisan scrim overlay transparan (20% opacity) dari resource agar wallpaper tetap tampak dinamis dan kartu TreeView tetap kontras.
+            val scrimColor = ContextCompat.getColor(scrimView.context, R.color.scrim_overlay_color)
+            scrimView.setBackgroundColor(scrimColor)
 
         } catch (e: Throwable) {
             // Fallback aman untuk lingkungan unit test / Robolectric
             wallpaperImageView.setImageDrawable(null)
             wallpaperImageView.setBackgroundColor(Color.TRANSPARENT)
-            scrimView.setBackgroundColor(SCRIM_OVERLAY_COLOR)
+            val scrimColor = ContextCompat.getColor(scrimView.context, R.color.scrim_overlay_color)
+            scrimView.setBackgroundColor(scrimColor)
         }
     }
 
@@ -121,8 +125,5 @@ class SettingsWallpaperHelper {
 
     companion object {
         private const val BLUR_RADIUS_PX = 20f
-        // [Jalur Class]: com.silauncer.cepat.settings.SettingsWallpaperHelper
-        // [Penjelasan]: Lapisan scrim transparan 20% opacity (#33000000) untuk menjaga kontras teks dan kejelasan wallpaper dinamis.
-        private const val SCRIM_OVERLAY_COLOR = 0x33000000.toInt()
     }
 }

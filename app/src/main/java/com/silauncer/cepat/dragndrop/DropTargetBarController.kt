@@ -10,6 +10,7 @@ import android.util.Log
 import android.view.HapticFeedbackConstants
 import android.view.View
 import android.view.ViewGroup
+import androidx.core.content.ContextCompat
 import com.silauncer.cepat.R
 import com.silauncer.cepat.launcher.LauncherItem
 
@@ -108,7 +109,8 @@ class DropTargetBarController(
 
         if (hoverRemove != isHoveringRemove) {
             isHoveringRemove = hoverRemove
-            targetRemoveView?.setBackgroundColor(if (hoverRemove) 0x33FF3B30.toInt() else Color.TRANSPARENT)
+            val removeColor = if (hoverRemove) ContextCompat.getColor(bar.context, R.color.drop_target_remove_hover) else Color.TRANSPARENT
+            targetRemoveView?.setBackgroundColor(removeColor)
             if (hoverRemove) {
                 onHapticFeedback(HapticFeedbackConstants.KEYBOARD_TAP)
             }
@@ -116,7 +118,8 @@ class DropTargetBarController(
 
         if (hoverInfo != isHoveringInfo) {
             isHoveringInfo = hoverInfo
-            targetInfoView?.setBackgroundColor(if (hoverInfo) 0x33007AFF.toInt() else Color.TRANSPARENT)
+            val infoColor = if (hoverInfo) ContextCompat.getColor(bar.context, R.color.drop_target_info_hover) else Color.TRANSPARENT
+            targetInfoView?.setBackgroundColor(infoColor)
             if (hoverInfo) {
                 onHapticFeedback(HapticFeedbackConstants.KEYBOARD_TAP)
             }

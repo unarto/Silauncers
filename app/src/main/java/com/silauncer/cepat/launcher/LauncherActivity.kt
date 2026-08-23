@@ -19,7 +19,7 @@ import com.silauncer.cepat.cache.IconLoader
 import com.silauncer.cepat.folder.Folder
 import com.silauncer.cepat.folder.FolderInfo
 import com.silauncer.cepat.home.AppAdapter
-import com.silauncer.cepat.home.OverScroll
+import com.silauncer.cepat.touch.SpringOverScrollHelper
 import com.silauncer.cepat.storage.LauncherPreferences
 import com.silauncer.cepat.pm.UserCache
 import kotlinx.coroutines.launch
@@ -58,7 +58,7 @@ class LauncherActivity : AppCompatActivity() {
         // [Jalur Class]: com.silauncer.cepat.launcher.LauncherActivity
         // [Penjelasan]: Mengatur tata letak layar utama menggunakan GridLayoutManager bertipe vertikal (RecyclerView.VERTICAL) dengan jumlah kolom dinamis dari LauncherPreferences agar dapat di-scroll lancar dari atas ke bawah.
         recyclerView.layoutManager = GridLayoutManager(this, prefs.gridColumns, RecyclerView.VERTICAL, false)
-        OverScroll.setup(recyclerView)
+        SpringOverScrollHelper.setup(recyclerView)
 
         // [Jalur Class]: com.silauncer.cepat.launcher.LauncherActivity
         // [Penjelasan]: Menambahkan FocusedItemDecorator untuk menggambar highlight animasi fokus saat navigasi keyboard / D-pad

@@ -76,7 +76,7 @@ class GridDragAndDropHandler(
 
     private fun getGridColumns(): Int {
         val lm = recyclerView.layoutManager as? GridLayoutManager
-        return if (lm != null && lm.spanCount > 0) lm.spanCount else 4
+        return if (lm != null && lm.spanCount > 0) lm.spanCount else com.silauncer.cepat.deviceprofile.InvariantDeviceProfile.DEFAULT_COLUMNS
     }
 
     // [Jalur Class]: com.silauncer.cepat.dragndrop.GridDragAndDropHandler
@@ -317,8 +317,9 @@ class GridDragAndDropHandler(
             dropTargetBarController.openAppInfo(context, fromFolderItem)
         }
 
-        val vWidth = 100
-        val vHeight = 100
+        val fallbackItemDim = (48f * context.resources.displayMetrics.density).toInt().coerceAtLeast(48)
+        val vWidth = fallbackItemDim
+        val vHeight = fallbackItemDim
         val dragCenterX = rawX - currentDragView.registrationX + vWidth / 2f
         val dragCenterY = rawY - currentDragView.registrationY + vHeight / 2f
 
@@ -414,8 +415,9 @@ class GridDragAndDropHandler(
         columns: Int,
         root: ViewGroup
     ) {
-        val vWidth = draggedViewHolder?.itemView?.width ?: 100
-        val vHeight = draggedViewHolder?.itemView?.height ?: 100
+        val fallbackDim = (48f * context.resources.displayMetrics.density).toInt().coerceAtLeast(48)
+        val vWidth = draggedViewHolder?.itemView?.width?.takeIf { it > 0 } ?: fallbackDim
+        val vHeight = draggedViewHolder?.itemView?.height?.takeIf { it > 0 } ?: fallbackDim
         val dragCenterX = rawX - currentDragView.registrationX + vWidth / 2f
         val dragCenterY = rawY - currentDragView.registrationY + vHeight / 2f
 

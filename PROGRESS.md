@@ -1,6 +1,19 @@
 # Progress Status: Silauncer
 
 ## SELESAI
+- **Pembersihan Duplikasi Kelas, Normalisasi Hardcoded Values, dan Optimasi Resource (Selesai)**:
+  - **Penyatuan & Deduplikasi Utilitas**:
+    * Mengonsolidasikan implementasi `OverScroll` dengan membuat `SpringOverScrollHelper.kt` di package `com.silauncer.cepat.touch` dan menghapus implementasi duplikat di `com.silauncer.cepat.home.OverScroll`.
+    * Memperbarui import `CheckLongPressHelper` di `WorkspaceGestureDetector.kt` langsung ke `com.silauncer.cepat.touch.CheckLongPressHelper` dan menghapus file jembatan duplikat `launcher.CheckLongPressHelper.kt`.
+  - **Penghapusan Hardcoded Values & Magic Numbers**:
+    * Mengganti nilai PX mentah (`100px`) pada fallback dimensi `DragView.kt`, `GridDragAndDropHandler.kt`, dan `SecondaryDragController.kt` dengan dimensi berskala densitas dinamis (`resources.displayMetrics.density` / `48dp`).
+    * Menambahkan definisi warna `drop_target_remove_hover`, `drop_target_info_hover`, dan `scrim_overlay_color` pada `res/values/colors.xml`, lalu mengganti hex ARGB mentah di `DropTargetBarController.kt` dan `SettingsWallpaperHelper.kt` dengan `ContextCompat.getColor`.
+    * Memperbaiki koordinat clamping, batas panah `ArrowPopup` (`minArrowX`, `maxArrowX` berbasis `cornerRadius`), serta warna panah dinamis di `PopupContainerWithArrow.kt`.
+    * Mengekstrak konstanta skala animasi fisika pegas (`SCALE_LANDING_BOUNCE_DEFAULT`, `SCALE_LANDING_BOUNCE_DRAGOUT`, `SCALE_DISSOLVED_DEFAULT`) di `DragSpringAnimationHelper.kt`.
+  - **Validasi & Verifikasi**:
+    * `compile_applet` terverifikasi **PASS / Succeeded**.
+    * `gradle :app:testDebugUnitTest` terverifikasi **100% PASS** (35 actionable tasks, 0 failure).
+
 - **Refaktorisasi Arsitektur Subsistem Drag & Drop (SRP & Clean Code) (Selesai)**:
   - **Pemisahan Tanggung Jawab (Single Responsibility Principle)**:
     * Mengekstrak pengelolaan DropTargetBar (overlay "Hapus" & "Info aplikasi", hit-test koordinat kursor, animasi slide-in/slide-out, dan haptik) ke dalam `DropTargetBarController.kt`.

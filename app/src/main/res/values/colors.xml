@@ -14,4 +14,9 @@
     <!-- [Jalur Class]: app/src/main/res/values/colors.xml -->
     <!-- [Penjelasan]: Warna titik/dot indikator halaman folder dan pagination pager -->
     <color name="folder_pagination_color">#CCFFFFFF</color>
+    <!-- [Jalur Class]: app/src/main/res/values/colors.xml -->
+    <!-- [Penjelasan]: Warna sorotan hover pada zona Hapus dan Info Aplikasi di Drop Target Bar serta scrim overlay -->
+    <color name="drop_target_remove_hover">#33FF3B30</color>
+    <color name="drop_target_info_hover">#33007AFF</color>
+    <color name="scrim_overlay_color">#33000000</color>
 </resources>

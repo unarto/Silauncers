@@ -175,17 +175,22 @@ class PopupContainerWithArrow @JvmOverloads constructor(
 
         val displayMetrics = context.resources.displayMetrics
         val screenWidth = displayMetrics.widthPixels
+        val margin16 = (16f * displayMetrics.density).toInt()
+        val margin8 = (8f * displayMetrics.density).toInt()
+        val margin24 = (24f * displayMetrics.density).toInt()
 
         // Tentukan posisi di atas/bawah ikon secara dinamis
-        mIsAboveIcon = (anchorY - popupHeight - 24) >= 0
-        val estimatedPopupX = (anchorCenterX - (popupWidth / 2)).coerceIn(16, screenWidth - popupWidth - 16)
-        val arrowX = (anchorCenterX - estimatedPopupX - (mArrowWidth / 2)).coerceIn(16, popupWidth - mArrowWidth - 16)
+        mIsAboveIcon = (anchorY - popupHeight - margin24) >= 0
+        val estimatedPopupX = (anchorCenterX - (popupWidth / 2)).coerceIn(margin16, (screenWidth - popupWidth - margin16).coerceAtLeast(margin16))
+        val minArrowX = cornerRadius.toInt()
+        val maxArrowX = (popupWidth - mArrowWidth - cornerRadius).toInt().coerceAtLeast(minArrowX)
+        val arrowX = (anchorCenterX - estimatedPopupX - (mArrowWidth / 2)).coerceIn(minArrowX, maxArrowX)
 
         // Konfigurasi drawable panah presisi (Inisialisasi mArrow secara internal via setupArrow)
         setupArrow(
             isPointingUp = !mIsAboveIcon,
             leftAligned = true,
-            arrowColor = android.graphics.Color.parseColor("#2C2C2E"), // Selaras dengan bg_popup_bubble
+            arrowColor = popupBackgroundColor,
             popupRadius = cornerRadius,
             popupWidth = popupWidth.toFloat(),
             popupHeight = popupHeight.toFloat(),
@@ -219,11 +224,11 @@ class PopupContainerWithArrow @JvmOverloads constructor(
         val finalPopupWidth = measuredWidth
         val finalPopupHeight = measuredHeight
 
-        val popupX = (anchorCenterX - (finalPopupWidth / 2)).coerceIn(16, screenWidth - finalPopupWidth - 16)
+        val popupX = (anchorCenterX - (finalPopupWidth / 2)).coerceIn(margin16, (screenWidth - finalPopupWidth - margin16).coerceAtLeast(margin16))
         val popupY = if (mIsAboveIcon) {
-            anchorY - finalPopupHeight - 8
+            anchorY - finalPopupHeight - margin8
         } else {
-            anchorY + anchorView.height + 8
+            anchorY + anchorView.height + margin8
         }
 
         mArrowOffsetHorizontal = arrowX
