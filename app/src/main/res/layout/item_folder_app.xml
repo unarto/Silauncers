@@ -1,0 +1,52 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    android:layout_width="match_parent"
+    android:layout_height="wrap_content"
+    android:gravity="center_horizontal|top"
+    android:orientation="vertical"
+    android:padding="@dimen/folder_modal_item_spacing"
+    android:background="?android:attr/selectableItemBackgroundBorderless">
+
+    <FrameLayout
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginBottom="@dimen/default_icon_spacing">
+        
+        <ImageView
+            android:id="@+id/folder_item_icon"
+            android:layout_width="@dimen/folder_modal_item_icon_size"
+            android:layout_height="@dimen/folder_modal_item_icon_size"
+            android:background="@drawable/bg_app_icon"
+            android:clipToOutline="true"
+            android:scaleType="fitCenter"
+            android:contentDescription="@string/app_name" />
+            
+        <View
+            android:id="@+id/folder_notification_dot"
+            android:layout_width="10dp"
+            android:layout_height="10dp"
+            android:layout_gravity="top|end"
+            android:layout_marginTop="2dp"
+            android:layout_marginEnd="2dp"
+            android:background="@drawable/bg_notification_dot"
+            android:visibility="gone" />
+    </FrameLayout>
+
+    <!-- [Jalur Class]: app/src/main/res/layout/item_folder_app.xml -->
+    <!-- [Penjelasan]: Label nama aplikasi dengan text shadow yang jelas agar terbaca sempurna di atas wallpaper apapun -->
+    <TextView
+        android:id="@+id/folder_item_name"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:ellipsize="end"
+        android:gravity="center_horizontal|top"
+        android:maxLines="1"
+        android:singleLine="true"
+        android:textColor="@android:color/white"
+        android:shadowColor="#B3000000"
+        android:shadowDx="1"
+        android:shadowDy="2"
+        android:shadowRadius="3"
+        android:textSize="@dimen/folder_modal_item_label_size" />
+
+</LinearLayout>

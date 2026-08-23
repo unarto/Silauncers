@@ -1,0 +1,88 @@
+<?xml version="1.0" encoding="utf-8"?>
+<!-- [Jalur Class]: app/src/main/res/layout/drop_target_bar.xml -->
+<!-- [Penjelasan]: Layout drop target bar melayang di bagian atas layar untuk memfasilitasi drop-to-delete ("Hapus") dan "Info aplikasi" selama penyeretan (drag) sesuai spesifikasi Launcher3 -->
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    android:id="@+id/drop_target_bar_layout"
+    android:layout_width="match_parent"
+    android:layout_height="72dp"
+    android:layout_gravity="top"
+    android:layout_marginHorizontal="16dp"
+    android:layout_marginTop="16dp"
+    android:background="@drawable/bg_popup_bubble"
+    android:elevation="12dp"
+    android:orientation="horizontal"
+    android:padding="8dp"
+    android:gravity="center"
+    android:visibility="gone">
+
+    <!-- Target Zona Hapus (Remove from Workspace) -->
+    <LinearLayout
+        android:id="@+id/target_remove"
+        android:layout_width="0dp"
+        android:layout_height="match_parent"
+        android:layout_weight="1"
+        android:orientation="horizontal"
+        android:gravity="center"
+        android:clickable="false"
+        android:focusable="false"
+        android:layout_marginEnd="4dp"
+        android:background="@android:color/transparent">
+
+        <ImageView
+            android:id="@+id/remove_icon"
+            android:layout_width="24dp"
+            android:layout_height="24dp"
+            android:src="@drawable/ic_uninstall"
+            android:tint="#FFFFFFFF"
+            android:contentDescription="@null" />
+
+        <TextView
+            android:id="@+id/remove_text"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginStart="8dp"
+            android:text="@string/hapus"
+            android:textColor="#FFFFFFFF"
+            android:textSize="14sp"
+            android:textStyle="bold" />
+    </LinearLayout>
+
+    <!-- Pembagi Vertikal Tipis -->
+    <View
+        android:layout_width="1dp"
+        android:layout_height="match_parent"
+        android:background="#3A3A3C" />
+
+    <!-- Target Zona Info Aplikasi -->
+    <LinearLayout
+        android:id="@+id/target_info"
+        android:layout_width="0dp"
+        android:layout_height="match_parent"
+        android:layout_weight="1"
+        android:orientation="horizontal"
+        android:gravity="center"
+        android:clickable="false"
+        android:focusable="false"
+        android:layout_marginStart="4dp"
+        android:background="@android:color/transparent">
+
+        <ImageView
+            android:id="@+id/info_icon"
+            android:layout_width="24dp"
+            android:layout_height="24dp"
+            android:src="@drawable/ic_info"
+            android:tint="#FFFFFFFF"
+            android:contentDescription="@null" />
+
+        <TextView
+            android:id="@+id/info_text"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginStart="8dp"
+            android:text="@string/info_aplikasi"
+            android:textColor="#FFFFFFFF"
+            android:textSize="14sp"
+            android:textStyle="bold" />
+    </LinearLayout>
+
+</LinearLayout>

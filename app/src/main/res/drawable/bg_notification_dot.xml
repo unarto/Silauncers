@@ -1,0 +1,11 @@
+<?xml version="1.0" encoding="utf-8"?>
+<!--
+  // [Jalur Class]: app/src/main/res/drawable/bg_notification_dot.xml
+  // [Penjelasan]: Indikator titik notifikasi hijau bulat dengan warna cerah dan border halus sesuai spesifikasi visual
+-->
+<shape xmlns:android="http://schemas.android.com/apk/res/android"
+    android:shape="oval">
+    <solid android:color="#22C55E" />
+    <stroke android:width="1dp" android:color="#FFFFFF" />
+    <size android:width="10dp" android:height="10dp" />
+</shape>

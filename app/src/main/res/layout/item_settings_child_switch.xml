@@ -1,0 +1,57 @@
+<?xml version="1.0" encoding="utf-8"?>
+<!-- [Jalur Class]: /app/src/main/res/layout/item_settings_child_switch.xml -->
+<!-- [Penjelasan]: Tampilan item Child Node TreeView untuk opsi tunggal dengan tombol sakelar (SwitchMaterial / SwitchCompat) di sisi kanan -->
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    android:id="@+id/childSwitchContainer"
+    android:layout_width="match_parent"
+    android:layout_height="wrap_content"
+    android:layout_marginStart="12dp"
+    android:layout_marginTop="3dp"
+    android:layout_marginEnd="4dp"
+    android:layout_marginBottom="3dp"
+    android:background="@drawable/bg_settings_card_child"
+    android:clickable="true"
+    android:focusable="true"
+    android:gravity="center_vertical"
+    android:minHeight="52dp"
+    android:orientation="horizontal"
+    android:paddingStart="14dp"
+    android:paddingTop="8dp"
+    android:paddingEnd="14dp"
+    android:paddingBottom="8dp">
+
+    <!-- Title and Description -->
+    <LinearLayout
+        android:layout_width="0dp"
+        android:layout_height="wrap_content"
+        android:layout_weight="1"
+        android:orientation="vertical">
+
+        <TextView
+            android:id="@+id/tvSwitchTitle"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="Tampilkan Label Aplikasi"
+            android:textColor="#F2FFFFFF"
+            android:textSize="14sp" />
+
+        <TextView
+            android:id="@+id/tvSwitchSubtitle"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginTop="1dp"
+            android:text="Menampilkan teks nama di bawah ikon aplikasi"
+            android:textColor="#80FFFFFF"
+            android:textSize="11sp" />
+    </LinearLayout>
+
+    <!-- Switch Toggle Component -->
+    <androidx.appcompat.widget.SwitchCompat
+        android:id="@+id/switchToggle"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginStart="12dp"
+        android:clickable="false"
+        android:focusable="false" />
+
+</LinearLayout>

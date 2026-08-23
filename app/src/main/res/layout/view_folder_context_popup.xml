@@ -1,0 +1,47 @@
+<?xml version="1.0" encoding="utf-8"?>
+<!--
+  // [Jalur Class]: app/src/main/res/layout/view_folder_context_popup.xml
+  // [Penjelasan]: Layout popup menu konteks folder (Hapus folder) dengan tema kartu gelap rounded sesuai Screenshot 2
+-->
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    android:layout_width="wrap_content"
+    android:layout_height="wrap_content"
+    android:background="@drawable/bg_popup_bubble"
+    android:elevation="8dp"
+    android:orientation="vertical"
+    android:padding="8dp">
+
+    <LinearLayout
+        android:id="@+id/btn_delete_folder"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:minWidth="130dp"
+        android:minHeight="48dp"
+        android:gravity="center_vertical"
+        android:orientation="horizontal"
+        android:paddingHorizontal="16dp"
+        android:paddingVertical="10dp"
+        android:background="?android:attr/selectableItemBackground"
+        android:clickable="true"
+        android:focusable="true">
+
+        <ImageView
+            android:id="@+id/iv_delete_folder_icon"
+            android:layout_width="22dp"
+            android:layout_height="22dp"
+            android:layout_marginEnd="12dp"
+            android:src="@drawable/ic_delete_folder"
+            android:contentDescription="@string/hapus_folder" />
+
+        <TextView
+            android:id="@+id/tv_delete_folder_label"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="@string/hapus_folder"
+            android:textColor="#FFFFFFFF"
+            android:textSize="14sp"
+            android:textStyle="normal" />
+
+    </LinearLayout>
+
+</LinearLayout>

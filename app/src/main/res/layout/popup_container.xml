@@ -1,0 +1,39 @@
+<?xml version="1.0" encoding="utf-8"?>
+<!-- [Jalur Class]: app/src/main/res/layout/popup_container.xml -->
+<!-- [Penjelasan]: Layout kontainer popup berpanah (PopupContainerWithArrow) yang menggabungkan kontainer notifikasi, deep shortcut, dan pintasan sistem -->
+<com.silauncer.cepat.popup.PopupContainerWithArrow
+    xmlns:android="http://schemas.android.com/apk/res/android"
+    android:id="@+id/popup_container"
+    android:layout_width="wrap_content"
+    android:layout_height="wrap_content"
+    android:clipToPadding="false"
+    android:clipChildren="false"
+    android:orientation="vertical">
+
+    <!-- Kontainer Notifikasi Aktif -->
+    <com.silauncer.cepat.notification.NotificationContainer
+        android:id="@+id/notification_container"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_marginBottom="8dp"
+        android:background="@drawable/bg_popup_bubble"
+        android:visibility="gone" />
+
+    <!-- Kontainer System Shortcuts (Aksi Sistem - Upper Part) -->
+    <LinearLayout
+        android:id="@+id/system_shortcuts_container"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:orientation="vertical"
+        android:background="@drawable/bg_popup_bubble" />
+
+    <!-- Kontainer Deep Shortcuts Aplikasi (App Shortcuts - Lower Part) -->
+    <LinearLayout
+        android:id="@+id/deep_shortcuts_container"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginTop="8dp"
+        android:orientation="vertical"
+        android:background="@drawable/bg_popup_bubble" />
+
+</com.silauncer.cepat.popup.PopupContainerWithArrow>

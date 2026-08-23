@@ -1,0 +1,8 @@
+{
+  "name": "Silauncer",
+  "description": "Imported from GitHub: unarto/Silauncer",
+  "requestFramePermissions": [],
+  "majorCapabilities": [
+    "MAJOR_CAPABILITY_SERVER_SIDE_GEMINI_API"
+  ]
+}

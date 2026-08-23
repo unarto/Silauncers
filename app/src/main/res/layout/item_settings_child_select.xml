@@ -1,0 +1,72 @@
+<?xml version="1.0" encoding="utf-8"?>
+<!-- [Jalur Class]: /app/src/main/res/layout/item_settings_child_select.xml -->
+<!-- [Penjelasan]: Tampilan item Child Node TreeView untuk opsi konfigurasi berjenjang dengan lencana nilai saat ini -->
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    android:id="@+id/childSelectContainer"
+    android:layout_width="match_parent"
+    android:layout_height="wrap_content"
+    android:layout_marginStart="12dp"
+    android:layout_marginTop="3dp"
+    android:layout_marginEnd="4dp"
+    android:layout_marginBottom="3dp"
+    android:background="@drawable/bg_settings_card_child"
+    android:clickable="true"
+    android:focusable="true"
+    android:gravity="center_vertical"
+    android:minHeight="52dp"
+    android:orientation="horizontal"
+    android:paddingStart="14dp"
+    android:paddingTop="10dp"
+    android:paddingEnd="14dp"
+    android:paddingBottom="10dp">
+
+    <!-- Title and Subtitle -->
+    <LinearLayout
+        android:layout_width="0dp"
+        android:layout_height="wrap_content"
+        android:layout_weight="1"
+        android:orientation="vertical">
+
+        <TextView
+            android:id="@+id/tvSelectTitle"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="Tata Letak Grid"
+            android:textColor="#F2FFFFFF"
+            android:textSize="14sp"
+            android:textStyle="normal" />
+
+        <TextView
+            android:id="@+id/tvSelectSubtitle"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginTop="1dp"
+            android:text="Jumlah kolom x baris aplikasi"
+            android:textColor="#80FFFFFF"
+            android:textSize="11sp"
+            android:visibility="gone" />
+    </LinearLayout>
+
+    <!-- Value Badge -->
+    <TextView
+        android:id="@+id/tvSelectValueBadge"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginStart="8dp"
+        android:background="@drawable/bg_settings_badge"
+        android:text="5x6"
+        android:textColor="#FFFFFFFF"
+        android:textSize="13sp"
+        android:textStyle="bold" />
+
+    <!-- Chevron Indicator -->
+    <ImageView
+        android:id="@+id/ivSelectChevron"
+        android:layout_width="18dp"
+        android:layout_height="18dp"
+        android:layout_marginStart="6dp"
+        android:contentDescription="@null"
+        android:src="@drawable/ic_expand_more"
+        android:tint="#80FFFFFF" />
+
+</LinearLayout>

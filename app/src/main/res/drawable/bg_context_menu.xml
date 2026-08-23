@@ -1,0 +1,13 @@
+<?xml version="1.0" encoding="utf-8"?>
+<!--
+  // [Jalur Class]: app/src/main/res/drawable/bg_context_menu.xml
+  // [Penjelasan]: Background kartu gelap rounded dengan corner radius 18dp dan border subtle untuk popup context menu sesuai Screenshot 2
+-->
+<shape xmlns:android="http://schemas.android.com/apk/res/android"
+    android:shape="rectangle">
+    <corners android:radius="18dp" />
+    <solid android:color="#E62C2E33" />
+    <stroke
+        android:width="1dp"
+        android:color="#33FFFFFF" />
+</shape>

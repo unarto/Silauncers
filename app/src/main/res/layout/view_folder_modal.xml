@@ -1,0 +1,118 @@
+<?xml version="1.0" encoding="utf-8"?>
+<!--
+  // [Jalur Class]: app/src/main/res/layout/view_folder_modal.xml
+  // [Penjelasan]: Layout fullscreen modal folder dengan transparansi penuh agar wallpaper asli perangkat terlihat jernih dengan scrim tipis 10%
+-->
+<FrameLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    android:id="@+id/folder_overlay_scrim"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:background="@android:color/transparent"
+    android:clickable="true"
+    android:focusable="true">
+
+    <!-- [Jalur Class]: app/src/main/res/layout/view_folder_modal.xml -->
+    <!-- [Penjelasan]: Dynamic wallpaper background fallback untuk modal folder -->
+    <ImageView
+        android:id="@+id/folder_wallpaper_background"
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        android:scaleType="centerCrop"
+        android:visibility="gone"
+        android:importantForAccessibility="no" />
+
+    <!-- [Jalur Class]: app/src/main/res/layout/view_folder_modal.xml -->
+    <!-- [Penjelasan]: Lapisan scrim peredup transparan tipis (10% hitam #1A000000) agar wallpaper sistem tetap terekspos jelas dan teks/ikon folder tetap memiliki kontras tinggi -->
+    <View
+        android:id="@+id/folder_dim_overlay"
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        android:background="#1A000000" />
+
+    <LinearLayout
+        android:id="@+id/folder_card_container"
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        android:orientation="vertical"
+        android:gravity="center_horizontal"
+        android:paddingTop="120dp"
+        android:paddingBottom="48dp"
+        android:paddingHorizontal="20dp"
+        android:clickable="true"
+        android:focusable="true">
+
+        <EditText
+            android:id="@+id/folder_title_edit"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginBottom="36dp"
+            android:background="@null"
+            android:gravity="center"
+            android:hint="@string/folder_hint_name"
+            android:textColorHint="#99FFFFFF"
+            android:imeOptions="actionDone"
+            android:inputType="textCapWords"
+            android:maxLines="1"
+            android:singleLine="true"
+            android:textColor="@color/folder_modal_title_color"
+            android:textSize="@dimen/folder_modal_title_text_size"
+            android:textStyle="bold"
+            android:shadowColor="#80000000"
+            android:shadowDx="1"
+            android:shadowDy="2"
+            android:shadowRadius="4"
+            android:paddingHorizontal="16dp"
+            android:paddingVertical="4dp" />
+
+        <!-- [Jalur Class]: app/src/main/res/layout/view_folder_modal.xml -->
+        <!-- [Penjelasan]: Kontainer kartu item folder yang membungkus grid aplikasi dan indikator garis batas drag-out (boundary indicator) -->
+        <FrameLayout
+            android:id="@+id/folder_items_card_container"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:clipChildren="false"
+            android:clipToPadding="false"
+            android:padding="8dp">
+
+            <!-- [Jalur Class]: app/src/main/res/layout/view_folder_modal.xml -->
+            <!-- [Penjelasan]: Indikator batas visual (visual boundary line) transisi drag-out dari Folder ke Workspace yang membungkus kontainer item folder dan hanya muncul saat drag aktif -->
+            <View
+                android:id="@+id/folder_drag_boundary_indicator"
+                android:layout_width="match_parent"
+                android:layout_height="match_parent"
+                android:background="@drawable/folder_drag_boundary"
+                android:visibility="gone"
+                android:clickable="false"
+                android:focusable="false"
+                android:importantForAccessibility="no" />
+
+            <LinearLayout
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:orientation="vertical"
+                android:gravity="center_horizontal"
+                android:padding="12dp">
+
+                <androidx.recyclerview.widget.RecyclerView
+                    android:id="@+id/folder_items_grid"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:nestedScrollingEnabled="false"
+                    android:overScrollMode="never" />
+
+                <!-- [Jalur Class]: app/src/main/res/layout/view_folder_modal.xml -->
+                <!-- [Penjelasan]: Indikator titik halaman untuk folder multi-halaman -->
+                <com.silauncer.cepat.pageindicators.PageIndicatorDots
+                    android:id="@+id/folder_page_indicator"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_marginTop="16dp"
+                    android:visibility="gone" />
+
+            </LinearLayout>
+
+        </FrameLayout>
+
+    </LinearLayout>
+
+</FrameLayout>

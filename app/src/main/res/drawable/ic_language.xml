@@ -1,0 +1,11 @@
+<vector xmlns:android="http://schemas.android.com/apk/res/android"
+    android:width="24dp"
+    android:height="24dp"
+    android:viewportWidth="24"
+    android:viewportHeight="24">
+    <!-- [Jalur Class]: app/src/main/res/drawable/ic_language.xml -->
+    <!-- [Penjelasan]: Ikon vektor bahasa / globe internasional untuk item pengaturan Bahasa Aplikasi -->
+    <path
+        android:fillColor="#FFFFFF"
+        android:pathData="M12,2C6.48,2 2,6.48 2,12s4.48,10 10,10 10,-4.48 10,-10S17.52,2 12,2zM11,4.07c-3.06,0.44 -5.58,2.6 -6.53,5.43H8.3c0.39,-2.14 1.4,-4.06 2.7,-5.43zM4.26,14.5c0.95,2.83 3.47,4.99 6.53,5.43 -1.3,-1.37 -2.31,-3.29 -2.7,-5.43H4.26zM9.75,12c0,-0.85 0.08,-1.68 0.22,-2.5h4.06c0.14,0.82 0.22,1.65 0.22,2.5s-0.08,1.68 -0.22,2.5H9.97c-0.14,-0.82 -0.22,-1.65 -0.22,-2.5zM12.97,4.07c1.3,1.37 2.31,3.29 2.7,5.43H19.74C18.79,6.67 16.27,4.51 12.97,4.07zM15.67,14.5c-0.39,2.14 -1.4,4.06 -2.7,5.43 3.3,-0.44 5.82,-2.6 6.77,-5.43h-4.07z"/>
+</vector>

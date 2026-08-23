@@ -1,0 +1,11 @@
+<!-- [Jalur Class]: /app/src/main/res/drawable/ic_unpin.xml -->
+<!-- [Penjelasan]: Vektor ikon melepas pin untuk tindakan mencopot sematan aplikasi dari layar desktop secondary display -->
+<vector xmlns:android="http://schemas.android.com/apk/res/android"
+    android:width="24dp"
+    android:height="24dp"
+    android:viewportWidth="24"
+    android:viewportHeight="24">
+    <path
+        android:fillColor="#FFFFFFFF"
+        android:pathData="M2,5.27L3.28,4L20,20.72L18.73,22L12.8,16.07V22H11.2V16H6V14L8,12V11.27L2,5.27M16,12L18,14V16H14.8L10.8,12V4H11.8V2H1.8V4H2.8V12" />
+</vector>

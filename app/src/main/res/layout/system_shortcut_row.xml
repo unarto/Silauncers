@@ -1,0 +1,35 @@
+<?xml version="1.0" encoding="utf-8"?>
+<!-- [Jalur Class]: app/src/main/res/layout/system_shortcut_row.xml -->
+<!-- [Penjelasan]: Layout baris item pintasan sistem (App Info, Uninstall) dengan icon dan teks pada popup container -->
+<LinearLayout
+    xmlns:android="http://schemas.android.com/apk/res/android"
+    android:id="@+id/system_shortcut"
+    android:layout_width="@dimen/bg_popup_item_width"
+    android:layout_height="@dimen/bg_popup_item_height"
+    android:orientation="horizontal"
+    android:gravity="center_vertical"
+    android:paddingStart="@dimen/popup_padding_start"
+    android:paddingEnd="@dimen/popup_padding_end"
+    android:background="?android:attr/selectableItemBackground"
+    android:clickable="true"
+    android:focusable="true">
+
+    <ImageView
+        android:id="@+id/icon"
+        android:layout_width="24dp"
+        android:layout_height="24dp"
+        android:layout_marginEnd="16dp"
+        android:tint="?android:attr/textColorPrimary"
+        android:contentDescription="@null" />
+
+    <TextView
+        android:id="@+id/bubble_text"
+        android:layout_width="0dp"
+        android:layout_height="wrap_content"
+        android:layout_weight="1"
+        android:singleLine="true"
+        android:ellipsize="end"
+        android:textSize="14sp"
+        android:textColor="?android:attr/textColorPrimary" />
+
+</LinearLayout>

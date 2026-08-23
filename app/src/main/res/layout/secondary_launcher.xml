@@ -1,0 +1,99 @@
+<?xml version="1.0" encoding="utf-8"?>
+<!-- [Jalur Class]: /app/src/main/res/layout/secondary_launcher.xml -->
+<!-- [Penjelasan]: Layout antarmuka utama untuk layar sekunder (Secondary Display / Desktop Mode), yang memuat GridView aplikasi tersemat (pinned apps workspace), tombol pembuka laci aplikasi (all apps button), dan laci aplikasi melayang (all apps drawer). -->
+<com.silauncer.cepat.secondarydisplay.SecondaryDragLayer
+    xmlns:android="http://schemas.android.com/apk/res/android"
+    android:id="@+id/drag_layer"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:clipChildren="false"
+    android:padding="16dp">
+
+    <GridView
+        android:id="@+id/workspace_grid"
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        android:layout_marginBottom="100dp"
+        android:numColumns="4"
+        android:verticalSpacing="16dp"
+        android:horizontalSpacing="16dp"
+        android:gravity="center" />
+
+    <ImageButton
+        android:id="@+id/all_apps_button"
+        android:layout_width="56dp"
+        android:layout_height="56dp"
+        android:layout_gravity="bottom|end"
+        android:layout_margin="24dp"
+        android:padding="12dp"
+        android:src="@drawable/ic_apps"
+        android:background="@drawable/bg_settings_circle"
+        android:contentDescription="@string/all_apps_button_label"
+        android:elevation="6dp" />
+
+    <LinearLayout
+        android:id="@+id/apps_drawer_container"
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        android:layout_gravity="bottom|end"
+        android:orientation="vertical"
+        android:background="@drawable/bg_context_menu"
+        android:padding="16dp"
+        android:visibility="invisible"
+        android:elevation="8dp">
+
+        <!-- [Jalur Class]: /app/src/main/res/layout/secondary_launcher.xml -->
+        <!-- [Penjelasan]: Judul/Header untuk baris Saran Pintar yang terprediksi secara cerdas -->
+        <TextView
+            android:id="@+id/smart_predictions_title"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="Saran Pintar"
+            android:textColor="#FFFFFF"
+            android:textSize="14sp"
+            android:textStyle="bold"
+            android:layout_marginBottom="8dp" />
+
+        <!-- [Jalur Class]: /app/src/main/res/layout/secondary_launcher.xml -->
+        <!-- [Penjelasan]: Baris kontainer horizontal untuk menyajikan aplikasi saran pintar (PredictionRowView replica) -->
+        <LinearLayout
+            android:id="@+id/smart_predictions_row"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:orientation="horizontal"
+            android:gravity="center"
+            android:layout_marginBottom="12dp" />
+
+        <!-- [Jalur Class]: /app/src/main/res/layout/secondary_launcher.xml -->
+        <!-- [Penjelasan]: Garis pembatas visual (AppsDividerView replica) untuk memisahkan baris saran pintar dengan seluruh aplikasi -->
+        <View
+            android:id="@+id/predictions_divider"
+            android:layout_width="match_parent"
+            android:layout_height="1dp"
+            android:background="#33FFFFFF"
+            android:layout_marginBottom="12dp" />
+
+        <!-- [Jalur Class]: /app/src/main/res/layout/secondary_launcher.xml -->
+        <!-- [Penjelasan]: Judul/Header untuk membedakan daftar seluruh aplikasi terpasang -->
+        <TextView
+            android:id="@+id/all_apps_title"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="Semua Aplikasi"
+            android:textColor="#B3FFFFFF"
+            android:textSize="12sp"
+            android:layout_marginBottom="8dp" />
+
+        <GridView
+            android:id="@+id/all_apps_grid"
+            android:layout_width="match_parent"
+            android:layout_height="0dp"
+            android:layout_weight="1"
+            android:numColumns="4"
+            android:verticalSpacing="16dp"
+            android:horizontalSpacing="16dp"
+            android:gravity="center" />
+
+    </LinearLayout>
+
+</com.silauncer.cepat.secondarydisplay.SecondaryDragLayer>

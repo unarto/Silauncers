@@ -1,0 +1,113 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+    <!-- Default / Phone Portrait Baseline (5x6 Grid) -->
+    <integer name="default_grid_columns">5</integer>
+    <integer name="default_grid_rows">6</integer>
+    <dimen name="default_icon_size">48dp</dimen>
+    <dimen name="default_label_size">10sp</dimen>
+    <dimen name="default_icon_spacing">4dp</dimen>
+
+    <!-- Workspace Padding Defaults (Phone Portrait) -->
+    <dimen name="workspace_padding_horizontal_phone">8dp</dimen>
+    <dimen name="workspace_padding_vertical_phone">8dp</dimen>
+
+    <!-- Workspace Padding (Landscape) -->
+    <dimen name="workspace_padding_horizontal_landscape">16dp</dimen>
+    <dimen name="workspace_padding_vertical_landscape">8dp</dimen>
+
+    <!-- Workspace Padding (Foldable sw >= 600dp) -->
+    <dimen name="workspace_padding_horizontal_foldable">16dp</dimen>
+    <dimen name="workspace_padding_vertical_foldable">16dp</dimen>
+
+    <!-- Workspace Padding (Tablet sw >= 720dp) -->
+    <dimen name="workspace_padding_horizontal_tablet">24dp</dimen>
+    <dimen name="workspace_padding_vertical_tablet">24dp</dimen>
+
+    <!-- Cell Calculation Safety Margins & Min Bounds -->
+    <dimen name="cell_safety_margin">4dp</dimen>
+    <dimen name="min_safety_icon_size">24dp</dimen>
+
+    <!-- Form-Factor Smallest Width Thresholds (dp) -->
+    <integer name="sw_threshold_foldable_dp">600</integer>
+    <integer name="sw_threshold_tablet_dp">720</integer>
+
+    <!-- Phone Landscape Preset -->
+    <integer name="preset_phone_landscape_columns">6</integer>
+    <integer name="preset_phone_landscape_rows">4</integer>
+    <dimen name="preset_phone_landscape_icon_size">44dp</dimen>
+    <dimen name="preset_phone_landscape_label_size">9.5sp</dimen>
+    <dimen name="preset_phone_landscape_icon_spacing">4dp</dimen>
+
+    <!-- Foldable Preset -->
+    <integer name="preset_foldable_columns">6</integer>
+    <integer name="preset_foldable_rows">5</integer>
+    <dimen name="preset_foldable_icon_size">52dp</dimen>
+    <dimen name="preset_foldable_label_size">11sp</dimen>
+    <dimen name="preset_foldable_icon_spacing">6dp</dimen>
+
+    <!-- Tablet Preset -->
+    <integer name="preset_tablet_columns">7</integer>
+    <integer name="preset_tablet_rows">6</integer>
+    <dimen name="preset_tablet_icon_size">56dp</dimen>
+    <dimen name="preset_tablet_label_size">12sp</dimen>
+    <dimen name="preset_tablet_icon_spacing">8dp</dimen>
+
+    <!-- Folder Application Dimensions (3x3 Preview & 3-Column Modal) -->
+    <!-- [Jalur Class]: app/src/main/res/values/dimens.xml -->
+    <!-- [Penjelasan]: Dimensi thumbnail 3x3 untuk folder icon di workspace dan 3-kolom grid pada modal terbuka sesuai spesifikasi visual -->
+    <dimen name="folder_preview_size">52dp</dimen>
+    <dimen name="folder_preview_padding">4dp</dimen>
+    <dimen name="folder_preview_item_size">11dp</dimen>
+    <dimen name="folder_preview_item_margin">1.5dp</dimen>
+    <dimen name="folder_preview_corner_radius">14dp</dimen>
+
+    <dimen name="folder_modal_title_text_size">24sp</dimen>
+    <dimen name="folder_modal_item_icon_size">56dp</dimen>
+    <dimen name="folder_modal_item_label_size">12sp</dimen>
+    <dimen name="folder_modal_item_spacing">10dp</dimen>
+    <integer name="folder_animation_duration_ms">220</integer>
+
+    <!-- Folder Drag, Drop & Collision Detection -->
+    <dimen name="folder_creation_radius">36dp</dimen>
+    <dimen name="folder_drag_out_threshold">24dp</dimen>
+    <item name="folder_hover_scale" format="float" type="dimen">1.15</item>
+    <integer name="folder_hover_anim_duration_ms">150</integer>
+    <!-- Deep Shortcuts (AOSP Launcher3 adapted) -->
+    <dimen name="deep_shortcut_icon_size">36dp</dimen>
+    <dimen name="deep_shortcut_drag_handle_size">20dp</dimen>
+    <dimen name="deep_shortcut_drawable_padding">8dp</dimen>
+    <dimen name="popup_padding_start">12dp</dimen>
+    <dimen name="popup_padding_end">12dp</dimen>
+    <dimen name="deep_shortcuts_elevation">4dp</dimen>
+    <dimen name="bg_popup_item_width">240dp</dimen>
+    <dimen name="bg_popup_item_height">48dp</dimen>
+    <!-- Keyboard & Focus Navigation (AOSP Launcher3 adapted) -->
+    <!-- [Jalur Class]: app/src/main/res/values/dimens.xml -->
+    <!-- [Penjelasan]: Ketebalan stroke indikator fokus dan radius sudut untuk navigasi keyboard -->
+    <dimen name="focus_indicator_corner_radius">12dp</dimen>
+    <!-- Notifications (AOSP Launcher3 adapted) -->
+    <!-- [Jalur Class]: app/src/main/res/values/dimens.xml -->
+    <!-- [Penjelasan]: Dimensi kontainer notifikasi, padding, ikon, dan teks header/badge -->
+    <dimen name="notification_container_height">104dp</dimen>
+    <dimen name="notification_max_trans">8dp</dimen>
+    <dimen name="notification_space">8dp</dimen>
+    <dimen name="notification_padding_end">16dp</dimen>
+    <dimen name="notification_padding_bottom">12dp</dimen>
+    <dimen name="notification_padding_top">12dp</dimen>
+    <dimen name="notification_padding_header_top">16dp</dimen>
+    <dimen name="notification_header_padding_start">14dp</dimen>
+    <dimen name="notification_header_text_size">14sp</dimen>
+    <dimen name="notification_header_count_text_size">12sp</dimen>
+    <dimen name="notification_main_title_size">14sp</dimen>
+    <dimen name="notification_main_text_size">14sp</dimen>
+    <dimen name="notification_circle_icon_size">24dp</dimen>
+    <dimen name="notification_icon_size">32dp</dimen>
+    <dimen name="notification_icon_padding_start">10dp</dimen>
+    <dimen name="notification_main_text_padding_start">54dp</dimen>
+    <dimen name="dialog_corner_radius">16dp</dimen>
+    <!-- Page Indicators (AOSP Launcher3 adapted) -->
+    <!-- [Jalur Class]: app/src/main/res/values/dimens.xml -->
+    <!-- [Penjelasan]: Ukuran diameter dot indikator halaman dan ketebalan garis scrubber workspace -->
+    <dimen name="page_indicator_dot_size">8dp</dimen>
+    <dimen name="workspace_page_indicator_line_height">2dp</dimen>
+</resources>

@@ -1,0 +1,30 @@
+<?xml version="1.0" encoding="utf-8"?>
+<com.silauncer.cepat.shortcuts.DeepShortcutView
+    xmlns:android="http://schemas.android.com/apk/res/android"
+    android:layout_width="match_parent"
+    android:layout_height="@dimen/bg_popup_item_height"
+    android:foreground="?android:attr/selectableItemBackground">
+
+    <com.silauncer.cepat.shortcuts.DeepShortcutTextView
+        android:id="@+id/bubble_text"
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        android:gravity="start|center_vertical"
+        android:paddingStart="@dimen/popup_padding_start"
+        android:paddingEnd="@dimen/popup_padding_end"
+        android:drawableEnd="@drawable/ic_drag_handle"
+        android:drawablePadding="@dimen/deep_shortcut_drawable_padding"
+        android:singleLine="true"
+        android:ellipsize="end"
+        android:textSize="14sp"
+        android:textColor="?android:attr/textColorPrimary" />
+
+    <ImageView
+        android:id="@+id/icon"
+        android:layout_width="@dimen/deep_shortcut_icon_size"
+        android:layout_height="@dimen/deep_shortcut_icon_size"
+        android:layout_marginStart="@dimen/popup_padding_start"
+        android:layout_gravity="start|center_vertical"
+        android:contentDescription="@null" />
+
+</com.silauncer.cepat.shortcuts.DeepShortcutView>

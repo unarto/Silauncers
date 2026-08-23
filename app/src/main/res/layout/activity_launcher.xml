@@ -1,0 +1,29 @@
+<?xml version="1.0" encoding="utf-8"?>
+<FrameLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:fitsSystemWindows="true">
+
+    <androidx.recyclerview.widget.RecyclerView
+        android:id="@+id/app_grid"
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        android:clipToPadding="false"
+        android:paddingTop="16dp"
+        android:paddingBottom="32dp" />
+
+    <!-- [Jalur Class]: app/src/main/res/layout/activity_launcher.xml -->
+    <!-- [Penjelasan]: Indikator halaman scrubber garis horizontal workspace di bagian bawah layar -->
+    <com.silauncer.cepat.pageindicators.WorkspacePageIndicator
+        android:id="@+id/workspace_page_indicator"
+        android:layout_width="match_parent"
+        android:layout_height="16dp"
+        android:layout_gravity="bottom"
+        android:layout_marginBottom="8dp"
+        android:visibility="gone" />
+
+    <!-- [Jalur Class]: app/src/main/res/layout/activity_launcher.xml -->
+    <!-- [Penjelasan]: Menyisipkan komponen drop target bar untuk operasi seret-hapus ("Hapus" dan "Info aplikasi") -->
+    <include layout="@layout/drop_target_bar" />
+
+</FrameLayout>

@@ -1,0 +1,88 @@
+<?xml version="1.0" encoding="utf-8"?>
+<!-- [Jalur Class]: app/src/main/res/layout/notification_content.xml -->
+<!-- [Penjelasan]: Layout baris dan kartu notifikasi pop-up Launcher3 yang menampilkan header jumlah notifikasi, judul, teks ringkasan, dan icon aplikasi -->
+<com.silauncer.cepat.notification.NotificationMainView
+    xmlns:android="http://schemas.android.com/apk/res/android"
+    android:layout_width="match_parent"
+    android:layout_height="@dimen/notification_container_height"
+    android:orientation="vertical">
+
+    <!-- Header Notifikasi -->
+    <FrameLayout
+        android:id="@+id/header"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:paddingEnd="@dimen/notification_padding_end"
+        android:paddingTop="@dimen/notification_padding_header_top"
+        android:paddingStart="@dimen/notification_header_padding_start">
+
+        <TextView
+            android:id="@+id/notification_text"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_gravity="top|start"
+            android:text="@string/notifications_header"
+            android:textColor="#FFFFFFFF"
+            android:textSize="@dimen/notification_header_text_size"
+            android:textStyle="bold" />
+
+        <TextView
+            android:id="@+id/notification_count"
+            android:layout_width="@dimen/notification_circle_icon_size"
+            android:layout_height="@dimen/notification_circle_icon_size"
+            android:background="@drawable/notification_circle"
+            android:layout_gravity="top|end"
+            android:gravity="center"
+            android:textColor="#FFFFFFFF"
+            android:textSize="@dimen/notification_header_count_text_size"
+            android:textStyle="bold" />
+    </FrameLayout>
+
+    <!-- Main View Isi Notifikasi -->
+    <FrameLayout
+        android:id="@+id/main_view"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:paddingTop="@dimen/notification_padding_top"
+        android:paddingBottom="@dimen/notification_padding_bottom"
+        android:focusable="true">
+
+        <LinearLayout
+            android:id="@+id/text_and_background"
+            android:layout_width="match_parent"
+            android:layout_height="match_parent"
+            android:gravity="center_vertical"
+            android:orientation="vertical"
+            android:paddingEnd="@dimen/notification_padding_end"
+            android:paddingStart="@dimen/notification_main_text_padding_start">
+
+            <TextView
+                android:id="@+id/title"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:ellipsize="end"
+                android:lines="1"
+                android:textAlignment="viewStart"
+                android:textColor="#FFFFFFFF"
+                android:textSize="@dimen/notification_main_title_size"
+                android:textStyle="bold" />
+
+            <TextView
+                android:id="@+id/text"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:ellipsize="end"
+                android:lines="1"
+                android:textColor="#B3FFFFFF"
+                android:textSize="@dimen/notification_main_text_size" />
+        </LinearLayout>
+
+        <View
+            android:id="@+id/popup_item_icon"
+            android:layout_width="@dimen/notification_icon_size"
+            android:layout_height="@dimen/notification_icon_size"
+            android:layout_gravity="start|center_vertical"
+            android:layout_marginStart="@dimen/notification_icon_padding_start"/>
+
+    </FrameLayout>
+</com.silauncer.cepat.notification.NotificationMainView>

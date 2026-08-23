@@ -1,0 +1,17 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+    <color name="folder_preview_background">#33FFFFFF</color>
+    <color name="folder_preview_stroke">#22FFFFFF</color>
+    <!-- [Jalur Class]: app/src/main/res/values/colors.xml -->
+    <!-- [Penjelasan]: Warna background scrim transparan tipis 10% agar wallpaper terekspos sempurna -->
+    <color name="folder_modal_title_color">#FFFFFFFF</color>
+    <!-- [Jalur Class]: app/src/main/res/values/colors.xml -->
+    <!-- [Penjelasan]: Warna background fokus untuk navigasi keyboard dan indikator fokus D-pad/A11y -->
+    <color name="focused_background">#4D2196F3</color>
+    <!-- [Jalur Class]: app/src/main/res/values/colors.xml -->
+    <!-- [Penjelasan]: Warna latar belakang default kartu popup notifikasi dan shortcut -->
+    <color name="popup_color_primary">#2C2C2E</color>
+    <!-- [Jalur Class]: app/src/main/res/values/colors.xml -->
+    <!-- [Penjelasan]: Warna titik/dot indikator halaman folder dan pagination pager -->
+    <color name="folder_pagination_color">#CCFFFFFF</color>
+</resources>

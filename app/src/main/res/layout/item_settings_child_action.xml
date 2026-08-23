@@ -1,0 +1,59 @@
+<?xml version="1.0" encoding="utf-8"?>
+<!-- [Jalur Class]: /app/src/main/res/layout/item_settings_child_action.xml -->
+<!-- [Penjelasan]: Tampilan item Child Node TreeView untuk aksi/tindakan (misal: Kelola Aplikasi Tersembunyi, Reset Tata Letak) -->
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    android:id="@+id/childActionContainer"
+    android:layout_width="match_parent"
+    android:layout_height="wrap_content"
+    android:layout_marginStart="12dp"
+    android:layout_marginTop="3dp"
+    android:layout_marginEnd="4dp"
+    android:layout_marginBottom="3dp"
+    android:background="@drawable/bg_settings_card_child"
+    android:clickable="true"
+    android:focusable="true"
+    android:gravity="center_vertical"
+    android:minHeight="52dp"
+    android:orientation="horizontal"
+    android:paddingStart="14dp"
+    android:paddingTop="10dp"
+    android:paddingEnd="14dp"
+    android:paddingBottom="10dp">
+
+    <!-- Action Text -->
+    <LinearLayout
+        android:layout_width="0dp"
+        android:layout_height="wrap_content"
+        android:layout_weight="1"
+        android:orientation="vertical">
+
+        <TextView
+            android:id="@+id/tvActionTitle"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="Kelola Aplikasi Tersembunyi"
+            android:textColor="#F2FFFFFF"
+            android:textSize="14sp"
+            android:textStyle="normal" />
+
+        <TextView
+            android:id="@+id/tvActionSubtitle"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginTop="1dp"
+            android:text="Pilih aplikasi yang tidak ditampilkan pada kisi"
+            android:textColor="#80FFFFFF"
+            android:textSize="11sp" />
+    </LinearLayout>
+
+    <!-- Action Icon / Arrow Indicator -->
+    <ImageView
+        android:id="@+id/ivActionIcon"
+        android:layout_width="20dp"
+        android:layout_height="20dp"
+        android:layout_marginStart="8dp"
+        android:contentDescription="@null"
+        android:src="@drawable/ic_apps"
+        android:tint="#B3FFFFFF" />
+
+</LinearLayout>

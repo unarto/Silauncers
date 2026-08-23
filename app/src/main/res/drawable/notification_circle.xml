@@ -1,0 +1,13 @@
+<?xml version="1.0" encoding="utf-8"?>
+<!-- [Jalur Class]: app/src/main/res/drawable/notification_circle.xml -->
+<!-- [Penjelasan]: Drawable lingkaran badge hitungan notifikasi pada header popup notifikasi -->
+<shape
+    xmlns:android="http://schemas.android.com/apk/res/android"
+    android:shape="oval">
+
+    <solid android:color="#22C55E"/>
+
+    <size
+        android:width="@dimen/notification_circle_icon_size"
+        android:height="@dimen/notification_circle_icon_size"/>
+</shape>

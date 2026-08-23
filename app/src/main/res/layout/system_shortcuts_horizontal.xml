@@ -1,0 +1,100 @@
+<?xml version="1.0" encoding="utf-8"?>
+<!-- [Jalur Class]: app/src/main/res/layout/system_shortcuts_horizontal.xml -->
+<!-- [Penjelasan]: Layout baris horizontal berisi 3 tombol aksi sistem ("Info aplikasi", "Hapus", "Bagikan") sesuai Screenshot 1 -->
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    android:layout_width="wrap_content"
+    android:layout_height="80dp"
+    android:orientation="horizontal"
+    android:gravity="center"
+    android:paddingHorizontal="8dp"
+    android:divider="?android:attr/dividerVertical"
+    android:showDividers="none">
+
+    <!-- Tombol Info Aplikasi -->
+    <LinearLayout
+        android:id="@+id/btn_horizontal_info"
+        android:layout_width="80dp"
+        android:layout_height="match_parent"
+        android:orientation="vertical"
+        android:gravity="center"
+        android:background="?android:attr/selectableItemBackground"
+        android:clickable="true"
+        android:focusable="true">
+
+        <ImageView
+            android:layout_width="24dp"
+            android:layout_height="24dp"
+            android:src="@drawable/ic_info"
+            android:tint="#FFFFFFFF"
+            android:contentDescription="@null" />
+
+        <TextView
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginTop="6dp"
+            android:text="@string/info_aplikasi"
+            android:textColor="#FFFFFFFF"
+            android:textSize="11sp"
+            android:singleLine="true"
+            android:ellipsize="end" />
+    </LinearLayout>
+
+    <!-- Tombol Hapus / Uninstall -->
+    <LinearLayout
+        android:id="@+id/btn_horizontal_uninstall"
+        android:layout_width="80dp"
+        android:layout_height="match_parent"
+        android:orientation="vertical"
+        android:gravity="center"
+        android:background="?android:attr/selectableItemBackground"
+        android:clickable="true"
+        android:focusable="true">
+
+        <ImageView
+            android:layout_width="24dp"
+            android:layout_height="24dp"
+            android:src="@drawable/ic_uninstall"
+            android:tint="#FFFFFFFF"
+            android:contentDescription="@null" />
+
+        <TextView
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginTop="6dp"
+            android:text="@string/hapus"
+            android:textColor="#FFFFFFFF"
+            android:textSize="11sp"
+            android:singleLine="true"
+            android:ellipsize="end" />
+    </LinearLayout>
+
+    <!-- Tombol Bagikan -->
+    <LinearLayout
+        android:id="@+id/btn_horizontal_share"
+        android:layout_width="80dp"
+        android:layout_height="match_parent"
+        android:orientation="vertical"
+        android:gravity="center"
+        android:background="?android:attr/selectableItemBackground"
+        android:clickable="true"
+        android:focusable="true">
+
+        <ImageView
+            android:layout_width="24dp"
+            android:layout_height="24dp"
+            android:src="@drawable/ic_share"
+            android:tint="#FFFFFFFF"
+            android:contentDescription="@null" />
+
+        <TextView
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginTop="6dp"
+            android:text="@string/bagikan"
+            android:textColor="#FFFFFFFF"
+            android:textSize="11sp"
+            android:singleLine="true"
+            android:ellipsize="end" />
+    </LinearLayout>
+
+</LinearLayout>

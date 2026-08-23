@@ -1,0 +1,29 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+    <!-- [Jalur File]: app/src/main/res/values/attrs.xml -->
+    <!-- [Penjelasan]: Mendefinisikan atribut kustom untuk efek bayangan ganda (Double Shadow) pada TextView kustom -->
+    <declare-styleable name="ShadowInfo">
+        <attr name="ambientShadowBlur" format="dimension" />
+        <attr name="ambientShadowColor" format="color" />
+        <attr name="keyShadowBlur" format="dimension" />
+        <attr name="keyShadowOffsetX" format="dimension" />
+        <attr name="keyShadowOffsetY" format="dimension" />
+        <attr name="keyShadowColor" format="color" />
+    </declare-styleable>
+
+    <!-- [Jalur File]: app/src/main/res/values/attrs.xml -->
+    <!-- [Penjelasan]: Atribut kustom untuk spesifikasi responsif workspace grid -->
+    <declare-styleable name="WorkspaceSpec">
+        <attr name="specType" format="integer">
+            <enum name="height" value="0" />
+            <enum name="width" value="1" />
+        </attr>
+        <attr name="maxAvailableSize" format="dimension" />
+    </declare-styleable>
+
+    <declare-styleable name="SpecSize">
+        <attr name="fixedSize" format="dimension" />
+        <attr name="ofAvailableSpace" format="float" />
+        <attr name="ofRemainderSpace" format="float" />
+    </declare-styleable>
+</resources>
