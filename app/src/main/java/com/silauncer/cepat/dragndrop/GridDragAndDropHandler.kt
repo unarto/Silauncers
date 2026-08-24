@@ -105,7 +105,7 @@ class GridDragAndDropHandler(
         viewHolder.itemView.alpha = 0f
 
         val isApp = adapter.getItem(pos) is LauncherItem.App
-        dropTargetBarController.show(isApp)
+        // dropTargetBarController.show(isApp)
     }
 
     // [Jalur Class]: com.silauncer.cepat.dragndrop.GridDragAndDropHandler
@@ -134,7 +134,7 @@ class GridDragAndDropHandler(
         dv.show(root, rawX, rawY)
 
         val isApp = item is LauncherItem.App
-        dropTargetBarController.show(isApp)
+        // dropTargetBarController.show(isApp)
     }
 
     override fun onInterceptTouchEvent(rv: RecyclerView, e: MotionEvent): Boolean {

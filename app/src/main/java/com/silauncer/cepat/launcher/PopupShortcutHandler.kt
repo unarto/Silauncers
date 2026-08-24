@@ -238,7 +238,7 @@ class PopupShortcutHandler(
     }
 
     fun dismissAppMenu() {
-        activePopupContainer?.dismissPopup()
+        activePopupContainer?.closeComplete()
         activePopupContainer = null
         activePopupWindow?.dismiss()
         activePopupWindow = null

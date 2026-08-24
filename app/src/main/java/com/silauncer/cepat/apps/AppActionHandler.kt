@@ -6,14 +6,23 @@ import android.content.Intent
 import android.content.pm.LauncherApps
 import android.net.Uri
 import android.widget.Toast
+import com.silauncer.cepat.database.AppStatsRepository
 import com.silauncer.cepat.shortcuts.WorkspaceShortcutInfo
+import kotlinx.coroutines.CoroutineScope
+import kotlinx.coroutines.Dispatchers
+import kotlinx.coroutines.SupervisorJob
+import kotlinx.coroutines.launch
 
 class AppActionHandler(private val context: Context) {
+    private val appStatsRepo = AppStatsRepository(context)
+    private val scope = CoroutineScope(Dispatchers.IO + SupervisorJob())
 
     fun launchApp(app: AppInfo) {
         // [Jalur Class]: com.silauncer.cepat.apps.AppActionHandler
-        // [Penjelasan]: Mencatat frekuensi peluncuran aplikasi ke preferensi pengguna via singleton LauncherPreferences untuk melatih model saran pintar sebelum memulai aktivitas aplikasi.
-        com.silauncer.cepat.storage.LauncherPreferences.getInstance().incrementAppLaunchCount(app.packageName)
+        // [Penjelasan]: Mencatat frekuensi peluncuran aplikasi ke database Room via AppStatsRepository untuk melatih model saran pintar sebelum memulai aktivitas aplikasi.
+        scope.launch {
+            appStatsRepo.incrementLaunchCount(app.packageName)
+        }
         val intent = app.launchIntent()
         startActivitySafely(intent, app.name)
     }

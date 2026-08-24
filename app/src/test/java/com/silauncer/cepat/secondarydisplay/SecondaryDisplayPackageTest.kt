@@ -119,9 +119,9 @@ class SecondaryDisplayPackageTest {
     }
 
     @Test
-    fun testSecondaryDisplayPredictions_smartRanking() {
+    fun testSecondaryDisplayPredictions_smartRanking() = kotlinx.coroutines.test.runTest {
         val predictions = SecondaryDisplayPredictions.newInstance(context)
-        val prefs = com.silauncer.cepat.storage.LauncherPreferences()
+        val appStatsRepo = com.silauncer.cepat.database.AppStatsRepository(context)
         
         val app1 = AppInfo(
             name = "App One",
@@ -142,13 +142,13 @@ class SecondaryDisplayPackageTest {
             user = Process.myUserHandle()
         )
 
-        // Atur agar App Two diluncurkan paling sering, diikuti App Three
-        prefs.incrementAppLaunchCount("com.example.two")
-        prefs.incrementAppLaunchCount("com.example.two")
-        prefs.incrementAppLaunchCount("com.example.three")
+        // Atur agar App Two diluncurkan paling sering, diikuti App Three pada Room DB
+        appStatsRepo.incrementLaunchCount("com.example.two")
+        appStatsRepo.incrementLaunchCount("com.example.two")
+        appStatsRepo.incrementLaunchCount("com.example.three")
 
         // Latih prediksi
-        predictions.setPredictedApps(listOf(app1, app2, app3))
+        predictions.setPredictedAppsSuspend(listOf(app1, app2, app3))
         val results = predictions.getPredictedApps()
 
         // App Two harus berada di peringkat pertama karena memiliki 2 peluncuran

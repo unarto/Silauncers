@@ -48,12 +48,67 @@ class WorkspaceGestureDetector(
     private var longPressHelper: CheckLongPressHelper? = null
 
     // [Jalur Class]: com.silauncer.cepat.launcher.WorkspaceGestureDetector
-    // [Penjelasan]: Memicu haptic feedback dan menandai pending popup saat gestur long press terdeteksi untuk app, folder, atau shortcut
+    // [Penjelasan]: Memicu haptic feedback dan langsung menampilkan popup menu saat gestur long press terdeteksi untuk app, folder, atau shortcut
     private fun triggerLongPress() {
         if (currentTarget != null && (currentApp != null || currentFolder != null || currentShortcut != null) && !hasPerformedLongPress) {
             hasPerformedLongPress = true
             currentTarget!!.itemView.performHapticFeedback(HapticFeedbackConstants.LONG_PRESS)
-            pendingPopup = true
+            
+            if (currentApp != null) {
+                popupHandler.showAppMenu(
+                    app = currentApp!!,
+                    view = currentTarget!!.itemView,
+                    onPinShortcut = { shortcutInfo ->
+                        val workspaceShortcut = com.silauncer.cepat.shortcuts.WorkspaceShortcutInfo.fromShortcutInfo(shortcutInfo)
+                        val currentItems = adapter.getLauncherItems().toMutableList()
+                        currentItems.add(com.silauncer.cepat.launcher.LauncherItem.Shortcut(workspaceShortcut))
+                        adapter.submitLauncherItems(currentItems)
+                        onOrderModified(currentItems)
+                        android.widget.Toast.makeText(
+                            context,
+                            context.getString(com.silauncer.cepat.R.string.shortcut_pinned_toast),
+                            android.widget.Toast.LENGTH_SHORT
+                        ).show()
+                    }
+                )
+            } else if (currentFolder != null) {
+                val targetFolder = currentFolder!!
+                val folderName = if (targetFolder.title.isNotBlank()) targetFolder.title else context.getString(com.silauncer.cepat.R.string.folder_unnamed)
+                val anchor = currentTarget?.itemView
+                popupHandler.showFolderMenu(folderName, anchor) {
+                    val allItems = targetFolder.getAllItems()
+                    val currentItems = adapter.getLauncherItems().toMutableList()
+                    val folderIndex = currentItems.indexOfFirst {
+                        (it as? com.silauncer.cepat.launcher.LauncherItem.Folder)?.folderInfo?.id == targetFolder.id
+                    }
+                    if (folderIndex != -1) {
+                        currentItems.removeAt(folderIndex)
+                        currentItems.addAll(folderIndex, allItems)
+                        adapter.submitLauncherItems(currentItems)
+                        onOrderModified(currentItems)
+                        android.widget.Toast.makeText(
+                            context,
+                            context.getString(com.silauncer.cepat.R.string.folder_dissolved_toast),
+                            android.widget.Toast.LENGTH_SHORT
+                        ).show()
+                    }
+                }
+            } else if (currentShortcut != null) {
+                val targetShortcut = currentShortcut!!
+                val shortcutName = targetShortcut.title.toString()
+                val anchor = currentTarget?.itemView
+                popupHandler.showShortcutMenu(shortcutName, anchor) {
+                    val currentItems = adapter.getLauncherItems().toMutableList()
+                    val shortcutIndex = currentItems.indexOfFirst {
+                        (it as? com.silauncer.cepat.launcher.LauncherItem.Shortcut)?.shortcutInfo?.cacheKey == targetShortcut.cacheKey
+                    }
+                    if (shortcutIndex != -1) {
+                        currentItems.removeAt(shortcutIndex)
+                        adapter.submitLauncherItems(currentItems)
+                        onOrderModified(currentItems)
+                    }
+                }
+            }
         }
     }
 
@@ -139,69 +194,6 @@ class WorkspaceGestureDetector(
                 val offsetX = child?.left?.toFloat() ?: 0f
                 val offsetY = child?.top?.toFloat() ?: 0f
                 longPressHelper?.onTouchEvent(e, offsetX, offsetY)
-                if (pendingPopup && currentTarget != null) {
-                    if (currentApp != null) {
-                        popupHandler.showAppMenu(
-                            app = currentApp!!,
-                            view = currentTarget!!.itemView,
-                            onPinShortcut = { shortcutInfo ->
-                                val workspaceShortcut = com.silauncer.cepat.shortcuts.WorkspaceShortcutInfo.fromShortcutInfo(shortcutInfo)
-                                val currentItems = adapter.getLauncherItems().toMutableList()
-                                currentItems.add(LauncherItem.Shortcut(workspaceShortcut))
-                                adapter.submitLauncherItems(currentItems)
-                                onOrderModified(currentItems)
-                                android.widget.Toast.makeText(
-                                    context,
-                                    context.getString(com.silauncer.cepat.R.string.shortcut_pinned_toast),
-                                    android.widget.Toast.LENGTH_SHORT
-                                ).show()
-                            }
-                        )
-                    } else if (currentFolder != null) {
-                        val targetFolder = currentFolder!!
-                        val folderName = if (targetFolder.title.isNotBlank()) targetFolder.title else context.getString(com.silauncer.cepat.R.string.folder_unnamed)
-                        val anchor = currentTarget?.itemView
-                        // [Jalur Class]: com.silauncer.cepat.launcher.WorkspaceGestureDetector
-                        // [Penjelasan]: Menampilkan popup menu floating 'Hapus folder' yang ter-anchor ke folder icon
-                        popupHandler.showFolderMenu(folderName, anchor) {
-                            // [Jalur Class]: com.silauncer.cepat.launcher.WorkspaceGestureDetector
-                            // [Penjelasan]: Langsung mengembalikan seluruh item/aplikasi dari dalam folder ke workspace, menghapus folder dari database & tampilan secara realtime tanpa dialog konfirmasi bertumpuk
-                            val allItems = targetFolder.getAllItems()
-                            val currentItems = adapter.getLauncherItems().toMutableList()
-                            val folderIndex = currentItems.indexOfFirst {
-                                (it as? LauncherItem.Folder)?.folderInfo?.id == targetFolder.id
-                            }
-                            if (folderIndex != -1) {
-                                currentItems.removeAt(folderIndex)
-                                currentItems.addAll(folderIndex, allItems)
-                                adapter.submitLauncherItems(currentItems)
-                                onOrderModified(currentItems)
-                                android.widget.Toast.makeText(
-                                    context,
-                                    context.getString(com.silauncer.cepat.R.string.folder_dissolved_toast),
-                                    android.widget.Toast.LENGTH_SHORT
-                                ).show()
-                            }
-                        }
-                    } else if (currentShortcut != null) {
-                        val targetShortcut = currentShortcut!!
-                        val shortcutName = targetShortcut.title.toString()
-                        val anchor = currentTarget?.itemView
-                        // [Jalur Class]: com.silauncer.cepat.launcher.WorkspaceGestureDetector
-                        // [Penjelasan]: Menampilkan popup menu floating 'Hapus pintasan' yang ter-anchor ke shortcut icon
-                        popupHandler.showShortcutMenu(shortcutName, anchor) {
-                            val currentItems = adapter.getLauncherItems().toMutableList()
-                            val shortcutIndex = currentItems.indexOfFirst {
-                                (it as? LauncherItem.Shortcut)?.shortcutInfo?.cacheKey == targetShortcut.cacheKey
-                            }
-                            if (shortcutIndex != -1) {
-                                currentItems.removeAt(shortcutIndex)
-                                adapter.submitLauncherItems(currentItems)
-                                onOrderModified(currentItems)
-                            }
-                        }
-                    }
-                }
                 pendingPopup = false
                 cancelLongPress()
                 activePointerId = -1

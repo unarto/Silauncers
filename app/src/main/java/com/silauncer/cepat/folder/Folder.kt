@@ -60,6 +60,12 @@ class Folder @JvmOverloads constructor(
             dragDropController.onShowAppInfoListener = value
         }
 
+    var onDismissAppInfo: (() -> Unit)? = null
+        set(value) {
+            field = value
+            dragDropController.onDismissAppInfoListener = value
+        }
+
     init {
         LayoutInflater.from(context).inflate(R.layout.view_folder_modal, this, true)
 

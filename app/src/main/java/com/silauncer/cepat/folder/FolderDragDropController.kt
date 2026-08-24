@@ -44,6 +44,7 @@ class FolderDragDropController(
     var onDragOutListener: ((LauncherItem, Float, Float) -> Unit)? = null
     var onDragOutBoundaryPassed: ((LauncherItem, View?, Float, Float) -> Unit)? = null
     var onShowAppInfoListener: ((LauncherItem, View) -> Unit)? = null
+    var onDismissAppInfoListener: (() -> Unit)? = null
     var onCompleteCloseRequested: (() -> Unit)? = null
     var onDisallowInterceptTouchEvent: ((Boolean) -> Unit)? = null
     var onFolderFadeRequested: (() -> Unit)? = null
@@ -52,6 +53,10 @@ class FolderDragDropController(
     // [Penjelasan]: Memulai pelacakan drag item di dalam folder dengan feedback haptic, inisialisasi koordinat awal, elevasi visual ikon yang diseret, dan memunculkan garis batas visual transisi ke workspace.
     fun startDragOutTracking(app: LauncherItem, itemView: View) {
         itemView.performHapticFeedback(HapticFeedbackConstants.LONG_PRESS)
+        
+        // [Penjelasan]: Tampilkan popup saat long press langsung.
+        onShowAppInfoListener?.invoke(app, itemView)
+
         currentState = GestureDragState.DRAGGING_FOLDER
         isDraggingItem = true
         hasExitedFolder = false
@@ -60,6 +65,7 @@ class FolderDragDropController(
         activeDragItemView = itemView
         initialTouchX = -1f
         initialTouchY = -1f
+        itemView.bringToFront()
         itemView.animate().scaleX(1.15f).scaleY(1.15f).setDuration(120).start()
         onDisallowInterceptTouchEvent?.invoke(true)
 
@@ -86,6 +92,7 @@ class FolderDragDropController(
                     val dy = abs(ev.rawY - initialTouchY)
                     if (dx > touchSlop || dy > touchSlop) {
                         hasMovedBeyondSlop = true
+                        onDismissAppInfoListener?.invoke()
                     }
 
                     // [Penjelasan]: Memperbarui posisi translasi X dan Y secara 1:1 tanpa batasan sumbu/axis lock (bebas 360 derajat)
@@ -173,9 +180,6 @@ class FolderDragDropController(
                     if (exited && draggedApp != null) {
                         onDragOutListener?.invoke(draggedApp, dropX, dropY)
                         onCompleteCloseRequested?.invoke()
-                    } else if (!exited && !moved && draggedApp != null && draggedView != null) {
-                        // [Penjelasan]: Menampilkan popup Info Aplikasi HANYA jika pengguna melakukan tap/long-press murni tanpa ada pergeseran drag
-                        onShowAppInfoListener?.invoke(draggedApp, draggedView)
                     }
                     return true
                 }

@@ -80,6 +80,8 @@ class DropTargetBarController(
     // [Jalur Class]: com.silauncer.cepat.dragndrop.DropTargetBarController
     // [Penjelasan]: Mengevaluasi deteksi tabrakan koordinat kursor terhadap zona Hapus dan Info aplikasi
     fun updateHoverState(rawX: Float, rawY: Float, onHapticFeedback: (Int) -> Unit): Boolean {
+        return false // Disabled as per user request
+        
         ensureViewsInitialized()
         val bar = dropTargetBarView ?: return false
         if (bar.visibility != View.VISIBLE) return false

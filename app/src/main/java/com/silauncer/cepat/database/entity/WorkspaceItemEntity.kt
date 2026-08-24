@@ -40,5 +40,9 @@ data class WorkspaceItemEntity(
         const val ITEM_TYPE_APP = 0
         const val ITEM_TYPE_FOLDER = 1
         const val ITEM_TYPE_SHORTCUT = 2
+
+        // [Jalur Class]: com.silauncer.cepat.database.entity.WorkspaceItemEntity
+        // [Penjelasan]: Identifier container khusus untuk aplikasi tersemat pada Secondary Display Workspace Desktop.
+        const val CONTAINER_SECONDARY = "container_secondary"
     }
 }

@@ -39,4 +39,19 @@ interface WorkspaceItemDao {
 
     @Query("DELETE FROM workspace_items WHERE container_uid = :folderUid")
     suspend fun deleteByContainer(folderUid: String)
+
+    // [Jalur Class]: com.silauncer.cepat.database.entity.WorkspaceItemDao
+    // [Penjelasan]: Mengambil daftar item berdasarkan identifier container (misal container_secondary untuk desktop layar kedua).
+    @Query("SELECT * FROM workspace_items WHERE container_uid = :containerUid ORDER BY rank ASC")
+    suspend fun getItemsByContainer(containerUid: String): List<WorkspaceItemEntity>
+
+    // [Jalur Class]: com.silauncer.cepat.database.entity.WorkspaceItemDao
+    // [Penjelasan]: Mengambil seluruh item workspace utama dan folder tanpa mencampur item dari container layar kedua.
+    @Query("SELECT * FROM workspace_items WHERE container_uid IS NULL OR container_uid != 'container_secondary' ORDER BY rank ASC")
+    suspend fun getPrimaryWorkspaceItemsSync(): List<WorkspaceItemEntity>
+
+    // [Jalur Class]: com.silauncer.cepat.database.entity.WorkspaceItemDao
+    // [Penjelasan]: Menghapus seluruh item workspace utama dan folder saat reset atau saveWorkspace tanpa mengganggu data layar kedua.
+    @Query("DELETE FROM workspace_items WHERE container_uid IS NULL OR container_uid != 'container_secondary'")
+    suspend fun clearPrimaryWorkspace()
 }

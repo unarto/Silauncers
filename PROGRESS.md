@@ -1,6 +1,18 @@
 # Progress Status: Silauncer
 
 ## SELESAI
+- **Standarisasi Arsitektur Storage (MMKV + Room Database, Zero SharedPreferences) (Selesai)**:
+  - **Penyelarasan & Migrasi 100% ke MMKV**:
+    * Menambahkan properti `pinnedApps: Set<String>` dan key konstanta `KEY_PINNED_APPS` pada `LauncherPreferences.kt` berbasis Tencent MMKV.
+    * Merefaktor `PinnedAppsAdapter.kt` dari penggunaan legacy `SharedPreferences` (`context.getSharedPreferences`) menjadi `LauncherPreferences.getInstance()`.
+    * Memastikan seluruh codebase Silauncer 100% bebas dari `SharedPreferences` Android standar demi performa non-blocking memory-mapped I/O (MMKV) dan persistensi layout Room Database.
+  - **Sentralisasi Resource Warna**:
+    * Menambahkan `@color/notification_bubble_background` dan `@color/folder_dim_overlay` ke `res/values/colors.xml`.
+    * Mengganti raw hex ARGB di `NotificationMainView.kt` dan `FolderWallpaperBlurController.kt` dengan `ContextCompat.getColor`.
+  - **Validasi & Verifikasi**:
+    * `compile_applet` terverifikasi **PASS / Succeeded**.
+    * `gradle :app:testDebugUnitTest` terverifikasi **100% PASS** (35 actionable tasks, 0 failure).
+
 - **Pembersihan Duplikasi Kelas, Normalisasi Hardcoded Values, dan Optimasi Resource (Selesai)**:
   - **Penyatuan & Deduplikasi Utilitas**:
     * Mengonsolidasikan implementasi `OverScroll` dengan membuat `SpringOverScrollHelper.kt` di package `com.silauncer.cepat.touch` dan menghapus implementasi duplikat di `com.silauncer.cepat.home.OverScroll`.

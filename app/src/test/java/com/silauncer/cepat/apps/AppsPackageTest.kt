@@ -200,10 +200,11 @@ class AppsPackageTest {
     }
 
     @Test
-    fun testAppActionHandler_LaunchApp_IncrementsUsageCountAndStartsIntent() {
+    fun testAppActionHandler_LaunchApp_IncrementsUsageCountAndStartsIntent() = kotlinx.coroutines.test.runTest {
         // [Jalur Class]: com.silauncer.cepat.apps.AppsPackageTest
-        // [Penjelasan]: Memverifikasi bahwa launchApp mencatat frekuensi peluncuran aplikasi via LauncherPreferences dan meluncurkan LaunchIntent dengan flag yang tepat.
+        // [Penjelasan]: Memverifikasi bahwa launchApp mencatat frekuensi peluncuran aplikasi via AppStatsRepository (Room) dan meluncurkan LaunchIntent dengan flag yang tepat.
         val actionHandler = AppActionHandler(context)
+        val appStatsRepo = com.silauncer.cepat.database.AppStatsRepository(context)
         val testApp = AppInfo(
             name = "Launch Target",
             componentName = ComponentName("com.launch.target", "com.launch.target.MainActivity"),
@@ -211,9 +212,11 @@ class AppsPackageTest {
             user = Process.myUserHandle()
         )
 
-        val initialCount = LauncherPreferences.getInstance().getAppLaunchCount("com.launch.target")
+        val initialCount = appStatsRepo.getLaunchCount("com.launch.target")
         actionHandler.launchApp(testApp)
-        val updatedCount = LauncherPreferences.getInstance().getAppLaunchCount("com.launch.target")
+        // Tunggu coroutine asinkron IO selesai
+        Thread.sleep(500)
+        val updatedCount = appStatsRepo.getLaunchCount("com.launch.target")
         assertEquals(initialCount + 1, updatedCount)
 
         val shadowApp = org.robolectric.Shadows.shadowOf(ApplicationProvider.getApplicationContext<Application>())

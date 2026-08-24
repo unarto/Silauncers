@@ -41,6 +41,8 @@ class LauncherActivity : AppCompatActivity() {
 
     private var userChangeListener: Closeable? = null
 
+    private val folderPopupHandler by lazy { PopupShortcutHandler(this, actionHandler) }
+
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         setContentView(R.layout.activity_launcher)
@@ -243,13 +245,16 @@ class LauncherActivity : AppCompatActivity() {
         recyclerView.animate().alpha(0f).setDuration(200).start()
         findViewById<View>(R.id.workspace_page_indicator)?.animate()?.alpha(0f)?.setDuration(200)?.start()
 
+        folder.onDismissAppInfo = {
+            folderPopupHandler.dismissAppMenu()
+        }
         folder.onShowAppInfo = { item, view ->
             if (item is LauncherItem.App) {
-                PopupShortcutHandler(this, actionHandler).showAppMenu(item.appInfo, view)
+                folderPopupHandler.showAppMenu(item.appInfo, view)
             } else if (item is LauncherItem.Shortcut) {
                 // [Jalur Class]: com.silauncer.cepat.launcher.LauncherActivity
                 // [Penjelasan]: Menampilkan popup menu hapus pintasan saat shortcut di dalam folder di-long-press
-                PopupShortcutHandler(this, actionHandler).showShortcutMenu(item.shortcutInfo.title.toString(), view) {
+                folderPopupHandler.showShortcutMenu(item.shortcutInfo.title.toString(), view) {
                     lifecycleScope.launch {
                         folderInfo.removeShortcut(item.shortcutInfo)
                         val currentItems = adapter.getLauncherItems()

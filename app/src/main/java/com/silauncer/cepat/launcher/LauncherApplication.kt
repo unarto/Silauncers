@@ -10,23 +10,13 @@ class LauncherApplication : Application() {
     }
 
     // [Jalur Class]: com.silauncer.cepat.launcher.LauncherApplication
-    // [Penjelasan]: Membungkus inisialisasi MMKV dengan try-catch untuk mengantisipasi UnsatisfiedLinkError di lingkungan pengujian JVM/Robolectric murni tanpa merusak runtime production.
+    // [Penjelasan]: Menginisialisasi MMKV storage engine pada startup aplikasi dan menerapkan konfigurasi preferensi bahasa pengguna secara langsung.
     override fun onCreate() {
         super.onCreate()
         appContext = this
-        try {
-            MMKV.initialize(this)
-        } catch (e: Throwable) {
-            // Diabaikan di lingkungan pengujian JVM
-        }
+        MMKV.initialize(this)
 
-        // [Jalur Class]: com.silauncer.cepat.launcher.LauncherApplication
-        // [Penjelasan]: Menerapkan preferensi bahasa yang tersimpan saat inisialisasi aplikasi menggunakan singleton LauncherPreferences.
-        try {
-            val savedLang = com.silauncer.cepat.storage.LauncherPreferences.getInstance().appLanguage
-            com.silauncer.cepat.utils.LanguageHelper.applyLanguage(this, savedLang)
-        } catch (e: Throwable) {
-            // Safe fallback
-        }
+        val savedLang = com.silauncer.cepat.storage.LauncherPreferences.getInstance().appLanguage
+        com.silauncer.cepat.utils.LanguageHelper.applyLanguage(this, savedLang)
     }
 }

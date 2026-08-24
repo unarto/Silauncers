@@ -179,7 +179,7 @@ class SecondaryDisplayLauncher : Activity() {
         val apps = appController.getAllAppsRaw()
         allAppsAdapter.setApps(apps)
         pinnedAppsAdapter.setAllApps(apps)
-        secondaryPredictions.setPredictedApps(apps)
+        secondaryPredictions.setPredictedAppsSuspend(apps)
         renderPredictedApps()
     }
 
@@ -238,8 +238,10 @@ class SecondaryDisplayLauncher : Activity() {
     private fun refreshPredictions() {
         val apps = allAppsAdapter.getApps()
         if (apps.isNotEmpty()) {
-            secondaryPredictions.setPredictedApps(apps)
-            renderPredictedApps()
+            scope.launch {
+                secondaryPredictions.setPredictedAppsSuspend(apps)
+                renderPredictedApps()
+            }
         }
     }
 

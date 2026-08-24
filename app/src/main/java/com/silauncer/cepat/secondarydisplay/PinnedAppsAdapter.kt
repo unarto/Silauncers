@@ -1,7 +1,6 @@
 package com.silauncer.cepat.secondarydisplay
 
 import android.content.Context
-import android.content.SharedPreferences
 import android.os.Process
 import android.os.UserHandle
 import android.view.LayoutInflater
@@ -13,6 +12,7 @@ import android.widget.TextView
 import com.silauncer.cepat.R
 import com.silauncer.cepat.apps.AppInfo
 import com.silauncer.cepat.cache.IconLoader
+import com.silauncer.cepat.database.WorkspaceRepository
 import com.silauncer.cepat.pm.UserCache
 import com.silauncer.cepat.popup.SystemShortcut
 import com.silauncer.cepat.util.PackageUserKey
@@ -20,26 +20,22 @@ import kotlinx.coroutines.CoroutineScope
 import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.SupervisorJob
 import kotlinx.coroutines.cancel
+import kotlinx.coroutines.launch
 
 /**
  * PinnedAppsAdapter
  *
  * // [Jalur Class]: com.silauncer.cepat.secondarydisplay.PinnedAppsAdapter
  * // [Penjelasan]: Adapter khusus untuk mengelola dan menampilkan aplikasi tersemat (pinned apps) pada grid desktop layar sekunder (Secondary Display).
- * Merekam preferensi aplikasi tersemat pada SharedPreferences ("pinned_apps") dan mendengarkan pembaruan daftar aplikasi dari LauncherAppController.
+ * Menyimpan persistensi aplikasi tersemat pada database Room melalui WorkspaceRepository secara terstruktur dan terisolasi dari preferensi ringan MMKV.
  */
 class PinnedAppsAdapter(
     private val context: Context,
     private val onAppClickListener: View.OnClickListener,
     private val onAppLongClickListener: View.OnLongClickListener
-) : BaseAdapter(), SharedPreferences.OnSharedPreferenceChangeListener {
+) : BaseAdapter() {
 
-    companion object {
-        private const val PINNED_APPS_PREF = "pinned_apps_prefs"
-        private const val PINNED_APPS_KEY = "pinned_apps"
-    }
-
-    private val prefs: SharedPreferences = context.getSharedPreferences(PINNED_APPS_PREF, Context.MODE_PRIVATE)
+    private val workspaceRepo = WorkspaceRepository(context)
     private val userCache: UserCache = UserCache.getInstance(context)
     // [Jalur Class]: com.silauncer.cepat.secondarydisplay.PinnedAppsAdapter
     // [Penjelasan]: Mengelola CoroutineScope dengan SupervisorJob agar pemuatan icon terisolasi dan dapat dibatalkan saat destroy
@@ -56,19 +52,17 @@ class PinnedAppsAdapter(
 
     /**
      * // [Jalur Class]: com.silauncer.cepat.secondarydisplay.PinnedAppsAdapter
-     * // [Penjelasan]: Memuat daftar aplikasi tersemat awal dari SharedPreferences dan mendaftarkan listener pembaruan preferensi.
+     * // [Penjelasan]: Memuat daftar aplikasi tersemat awal dari database Room.
      */
     fun init() {
-        prefs.registerOnSharedPreferenceChangeListener(this)
         loadPinnedKeys()
     }
 
     /**
      * // [Jalur Class]: com.silauncer.cepat.secondarydisplay.PinnedAppsAdapter
-     * // [Penjelasan]: Mencabut listener SharedPreferences dan membatalkan coroutine scope ketika adapter/view dilepas dari window.
+     * // [Penjelasan]: Membatalkan coroutine scope ketika adapter/view dilepas dari window.
      */
     fun destroy() {
-        prefs.unregisterOnSharedPreferenceChangeListener(this)
         scope.cancel()
     }
 
@@ -87,15 +81,17 @@ class PinnedAppsAdapter(
     }
 
     private fun loadPinnedKeys() {
-        pinnedKeys.clear()
-        val rawSet = prefs.getStringSet(PINNED_APPS_KEY, emptySet()) ?: emptySet()
-        for (raw in rawSet) {
-            val key = parsePackageUserKey(raw)
-            if (key != null) {
-                pinnedKeys.add(key)
+        scope.launch {
+            val rawSet = workspaceRepo.getSecondaryPinnedApps()
+            pinnedKeys.clear()
+            for (raw in rawSet) {
+                val key = parsePackageUserKey(raw)
+                if (key != null) {
+                    pinnedKeys.add(key)
+                }
             }
+            createFilteredAppsList()
         }
-        createFilteredAppsList()
     }
 
     private fun savePinnedKeys() {
@@ -103,7 +99,9 @@ class PinnedAppsAdapter(
         for (key in pinnedKeys) {
             rawSet.add(encodePackageUserKey(key))
         }
-        prefs.edit().putStringSet(PINNED_APPS_KEY, rawSet).apply()
+        scope.launch {
+            workspaceRepo.saveSecondaryPinnedApps(rawSet)
+        }
     }
 
     private fun createFilteredAppsList() {
@@ -116,12 +114,6 @@ class PinnedAppsAdapter(
         }
         displayedItems.sortBy { it.name.lowercase() }
         notifyDataSetChanged()
-    }
-
-    override fun onSharedPreferenceChanged(sharedPreferences: SharedPreferences?, key: String?) {
-        if (PINNED_APPS_KEY == key) {
-            loadPinnedKeys()
-        }
     }
 
     override fun getCount(): Int = displayedItems.size

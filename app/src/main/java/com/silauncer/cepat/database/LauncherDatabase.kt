@@ -4,15 +4,18 @@ import android.content.Context
 import androidx.room.Database
 import androidx.room.Room
 import androidx.room.RoomDatabase
+import com.silauncer.cepat.database.entity.AppStatsDao
+import com.silauncer.cepat.database.entity.AppStatsEntity
 import com.silauncer.cepat.database.entity.WorkspaceItemDao
 import com.silauncer.cepat.database.entity.WorkspaceItemEntity
 
 // [Jalur Class]: com.silauncer.cepat.database.LauncherDatabase
-// [Penjelasan]: Setup utama Room Database untuk menyimpan struktur workspace dan folder Silauncer, diinisialisasi sebagai singleton.
+// [Penjelasan]: Setup utama Room Database untuk menyimpan struktur workspace, secondary display pinned items, dan launch statistics Silauncer, diinisialisasi sebagai singleton.
 
-@Database(entities = [WorkspaceItemEntity::class], version = 2, exportSchema = false)
+@Database(entities = [WorkspaceItemEntity::class, AppStatsEntity::class], version = 3, exportSchema = false)
 abstract class LauncherDatabase : RoomDatabase() {
     abstract fun workspaceItemDao(): WorkspaceItemDao
+    abstract fun appStatsDao(): AppStatsDao
 
     companion object {
         @Volatile

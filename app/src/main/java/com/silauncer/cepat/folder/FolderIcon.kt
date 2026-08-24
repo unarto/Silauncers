@@ -68,6 +68,12 @@ class FolderIcon @JvmOverloads constructor(
     init {
         orientation = VERTICAL
         gravity = android.view.Gravity.CENTER_HORIZONTAL or android.view.Gravity.TOP
+        val outValue = android.util.TypedValue()
+        context.theme.resolveAttribute(android.R.attr.selectableItemBackgroundBorderless, outValue, true)
+        setBackgroundResource(outValue.resourceId)
+        isClickable = true
+        isFocusable = true
+        
         LayoutInflater.from(context).inflate(R.layout.view_folder_icon, this, true)
         previewContainer = findViewById(R.id.folder_preview_container)
         previewGrid = findViewById(R.id.folder_preview_grid)

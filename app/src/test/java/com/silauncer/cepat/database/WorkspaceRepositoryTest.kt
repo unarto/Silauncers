@@ -34,10 +34,11 @@ class WorkspaceRepositoryTest {
     private val myUser = Process.myUserHandle()
 
     @Before
-    fun setUp() {
+    fun setUp() = runBlocking {
         context = ApplicationProvider.getApplicationContext()
         WorkspaceCache.clear()
         FolderCache.clear()
+        LauncherDatabase.getDatabase(context).workspaceItemDao().clearAll()
         repository = WorkspaceRepository(context)
     }
 
@@ -263,5 +264,30 @@ class WorkspaceRepositoryTest {
 
         repository.saveWorkspace(emptyList())
         assertTrue(dao.getAllItemsSync().isEmpty())
+    }
+
+    @Test
+    fun testSecondaryPinnedApps_SaveAndLoad() = runBlocking {
+        // [Jalur Class]: com.silauncer.cepat.database.WorkspaceRepositoryTest
+        // [Penjelasan]: Memverifikasi bahwa penyimpanan dan pembacaan aplikasi tersemat pada layar sekunder berhasil masuk ke tabel Room dengan CONTAINER_SECONDARY tanpa mengganggu workspace utama.
+        val pinnedKeys = setOf("com.example.app1#0", "com.example.app2#0")
+        repository.saveSecondaryPinnedApps(pinnedKeys)
+
+        val loadedKeys = repository.getSecondaryPinnedApps()
+        assertEquals(2, loadedKeys.size)
+        assertTrue(loadedKeys.contains("com.example.app1#0"))
+        assertTrue(loadedKeys.contains("com.example.app2#0"))
+
+        // Simpan workspace utama dan pastikan secondary pinned apps tidak terhapus
+        val app3 = createApp("App 3", "com.example.app3", "com.example.app3.MainActivity")
+        repository.saveWorkspace(listOf(LauncherItem.App(app3)))
+
+        val loadedAfterPrimarySave = repository.getSecondaryPinnedApps()
+        assertEquals(2, loadedAfterPrimarySave.size)
+
+        // Bersihkan workspace utama dan pastikan secondary pinned apps tetap aman
+        repository.saveWorkspace(emptyList())
+        val loadedAfterPrimaryClear = repository.getSecondaryPinnedApps()
+        assertEquals(2, loadedAfterPrimaryClear.size)
     }
 }

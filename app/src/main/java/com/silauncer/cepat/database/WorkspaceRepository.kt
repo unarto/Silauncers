@@ -37,8 +37,8 @@ class WorkspaceRepository(private val context: Context) {
         com.silauncer.cepat.cache.WorkspaceCache.invalidate()
         
         if (items.isEmpty()) {
-            // [Penjelasan]: Jika seluruh item dikosongkan, panggil clearAll untuk pembersihan menyeluruh secara efisien.
-            dao.clearAll()
+            // [Penjelasan]: Jika seluruh item dikosongkan, panggil clearPrimaryWorkspace untuk pembersihan workspace utama tanpa mengganggu data secondary workspace.
+            dao.clearPrimaryWorkspace()
             return@withContext
         }
 
@@ -116,7 +116,7 @@ class WorkspaceRepository(private val context: Context) {
             }
         }
         
-        val existingEntities = dao.getAllItemsSync()
+        val existingEntities = dao.getPrimaryWorkspaceItemsSync()
         if (existingEntities.isEmpty()) {
             dao.insertItems(targetEntities)
             return@withContext
@@ -219,7 +219,7 @@ class WorkspaceRepository(private val context: Context) {
                 return@withContext cached
             }
         }
-        val entities = dao.getAllItemsSync()
+        val entities = dao.getPrimaryWorkspaceItemsSync()
         if (entities.isEmpty()) {
             return@withContext emptyList()
         }
@@ -365,4 +365,38 @@ class WorkspaceRepository(private val context: Context) {
     // [Jalur Class]: com.silauncer.cepat.database.WorkspaceRepository
     // [Penjelasan]: Alias fungsi muatWorkspace untuk kompatibilitas penamaan berbahasa Indonesia.
     suspend fun muatWorkspace(allInstalledApps: List<AppInfo>): List<LauncherItem> = loadWorkspace(allInstalledApps)
+
+    // [Jalur Class]: com.silauncer.cepat.database.WorkspaceRepository
+    // [Penjelasan]: Mengambil daftar aplikasi tersemat pada Secondary Display Workspace Desktop dari database Room.
+    suspend fun getSecondaryPinnedApps(): Set<String> = withContext(Dispatchers.IO) {
+        val entities = dao.getItemsByContainer(WorkspaceItemEntity.CONTAINER_SECONDARY)
+        entities.mapNotNull { entity ->
+            val comp = entity.componentName ?: return@mapNotNull null
+            "$comp#${entity.userSerial}"
+        }.toSet()
+    }
+
+    // [Jalur Class]: com.silauncer.cepat.database.WorkspaceRepository
+    // [Penjelasan]: Menyimpan daftar aplikasi tersemat pada Secondary Display Workspace Desktop ke database Room secara persisten.
+    suspend fun saveSecondaryPinnedApps(pinnedKeys: Set<String>) = withContext(Dispatchers.IO) {
+        dao.deleteByContainer(WorkspaceItemEntity.CONTAINER_SECONDARY)
+        var rank = 0
+        val entities = pinnedKeys.mapNotNull { raw ->
+            val parts = raw.split("#")
+            if (parts.isNotEmpty()) {
+                val comp = parts[0]
+                val userSerial = parts.getOrNull(1)?.toLongOrNull() ?: 0L
+                WorkspaceItemEntity(
+                    itemType = WorkspaceItemEntity.ITEM_TYPE_APP,
+                    containerUid = WorkspaceItemEntity.CONTAINER_SECONDARY,
+                    rank = rank++,
+                    componentName = comp,
+                    userSerial = userSerial
+                )
+            } else null
+        }
+        if (entities.isNotEmpty()) {
+            dao.insertItems(entities)
+        }
+    }
 }

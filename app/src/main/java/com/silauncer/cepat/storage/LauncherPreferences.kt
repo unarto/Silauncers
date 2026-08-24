@@ -7,114 +7,64 @@ import com.tencent.mmkv.MMKV
  * LauncherPreferences
  *
  * Single Responsibility:
- * Mengelola persistensi data preferensi pengguna Silauncer ke MMKV storage.
+ * Mengelola persistensi data preferensi/konfigurasi pengguna Silauncer ke MMKV storage.
  * Menggunakan konstanta acuan dari [InvariantDeviceProfile] sebagai Single Source of Truth
  * untuk seluruh nilai default tata letak grid dan ukuran ikon.
  */
 // [Jalur Class]: com.silauncer.cepat.storage.LauncherPreferences
-// [Penjelasan]: Mengoptimalkan akses preferensi dengan menyediakan singleton accessor getInstance() dan caching MMKV instance guna mengeliminasi overhead alokasi objek GC berulang dan pemanggilan native MMKV berulang tanpa merusak SRP atau perilaku fallback.
+// [Penjelasan]: Menyediakan akses persistensi preferensi pengguna murni berbasis MMKV tanpa fallbackMap atau penyamaran kegagalan memori. MMKV menjadi single source of truth untuk konfigurasi preferensi ringan.
 class LauncherPreferences {
-    private val kv: MMKV? get() = cachedMMKV
-
-    // [Jalur Class]: com.silauncer.cepat.storage.LauncherPreferences
-    // [Penjelasan]: Menambahkan penekanan peringatan UNCHECKED_CAST pada enkoding MMKV untuk tipe Set<String> karena type erasure di JVM.
-    @Suppress("UNCHECKED_CAST")
-    private fun encode(key: String, value: Any) {
-        val store = kv
-        if (store != null) {
-            when (value) {
-                is Int -> store.encode(key, value)
-                is String -> store.encode(key, value)
-                is Boolean -> store.encode(key, value)
-                is Float -> store.encode(key, value)
-                is Set<*> -> store.encode(key, value as Set<String>)
-            }
-        } else {
-            fallbackMap[key] = value
-        }
-    }
-
-    private fun decodeInt(key: String, defaultValue: Int): Int {
-        return kv?.decodeInt(key, defaultValue) ?: (fallbackMap[key] as? Int ?: defaultValue)
-    }
-
-    private fun decodeString(key: String, defaultValue: String): String {
-        return kv?.decodeString(key, defaultValue) ?: (fallbackMap[key] as? String ?: defaultValue)
-    }
-
-    private fun decodeBool(key: String, defaultValue: Boolean): Boolean {
-        return kv?.decodeBool(key, defaultValue) ?: (fallbackMap[key] as? Boolean ?: defaultValue)
-    }
-
-    private fun decodeFloat(key: String, defaultValue: Float): Float {
-        return kv?.decodeFloat(key, defaultValue) ?: (fallbackMap[key] as? Float ?: defaultValue)
-    }
-
-    @Suppress("UNCHECKED_CAST")
-    private fun decodeStringSet(key: String, defaultValue: Set<String>): Set<String> {
-        return kv?.decodeStringSet(key, defaultValue) ?: (fallbackMap[key] as? Set<String> ?: defaultValue)
-    }
+    private val kv: MMKV get() = MMKV.mmkvWithID(MMKV_ID)
 
     var gridColumns: Int
-        get() = decodeInt(KEY_GRID_COLUMNS, InvariantDeviceProfile.DEFAULT_COLUMNS)
-        set(value) { encode(KEY_GRID_COLUMNS, value) }
+        get() = kv.decodeInt(KEY_GRID_COLUMNS, InvariantDeviceProfile.DEFAULT_COLUMNS)
+        set(value) { kv.encode(KEY_GRID_COLUMNS, value) }
 
     var gridRows: Int
-        get() = decodeInt(KEY_GRID_ROWS, InvariantDeviceProfile.DEFAULT_ROWS)
-        set(value) { encode(KEY_GRID_ROWS, value) }
+        get() = kv.decodeInt(KEY_GRID_ROWS, InvariantDeviceProfile.DEFAULT_ROWS)
+        set(value) { kv.encode(KEY_GRID_ROWS, value) }
 
     var iconSize: Int
-        get() = decodeInt(KEY_ICON_SIZE, InvariantDeviceProfile.DEFAULT_ICON_SIZE_DP.toInt())
-        set(value) { encode(KEY_ICON_SIZE, value) }
+        get() = kv.decodeInt(KEY_ICON_SIZE, InvariantDeviceProfile.DEFAULT_ICON_SIZE_DP.toInt())
+        set(value) { kv.encode(KEY_ICON_SIZE, value) }
 
     var sortMode: String
-        get() = decodeString(KEY_SORT_MODE, DEFAULT_SORT_MODE) ?: DEFAULT_SORT_MODE
-        set(value) { encode(KEY_SORT_MODE, value) }
+        get() = kv.decodeString(KEY_SORT_MODE, DEFAULT_SORT_MODE) ?: DEFAULT_SORT_MODE
+        set(value) { kv.encode(KEY_SORT_MODE, value) }
 
     var showAppLabel: Boolean
-        get() = decodeBool(KEY_SHOW_APP_LABEL, InvariantDeviceProfile.DEFAULT_SHOW_LABEL)
-        set(value) { encode(KEY_SHOW_APP_LABEL, value) }
+        get() = kv.decodeBool(KEY_SHOW_APP_LABEL, InvariantDeviceProfile.DEFAULT_SHOW_LABEL)
+        set(value) { kv.encode(KEY_SHOW_APP_LABEL, value) }
 
     var labelSize: Float
-        get() = decodeFloat(KEY_LABEL_SIZE, InvariantDeviceProfile.DEFAULT_LABEL_SIZE_SP)
-        set(value) { encode(KEY_LABEL_SIZE, value) }
+        get() = kv.decodeFloat(KEY_LABEL_SIZE, InvariantDeviceProfile.DEFAULT_LABEL_SIZE_SP)
+        set(value) { kv.encode(KEY_LABEL_SIZE, value) }
 
     var iconSpacing: Int
-        get() = decodeInt(KEY_ICON_SPACING, InvariantDeviceProfile.DEFAULT_ICON_SPACING_DP.toInt())
-        set(value) { encode(KEY_ICON_SPACING, value) }
+        get() = kv.decodeInt(KEY_ICON_SPACING, InvariantDeviceProfile.DEFAULT_ICON_SPACING_DP.toInt())
+        set(value) { kv.encode(KEY_ICON_SPACING, value) }
 
     var hiddenApps: Set<String>
-        get() = decodeStringSet(KEY_HIDDEN_APPS, emptySet()) ?: emptySet()
-        set(value) { encode(KEY_HIDDEN_APPS, value) }
+        get() = kv.decodeStringSet(KEY_HIDDEN_APPS, emptySet()) ?: emptySet()
+        set(value) { kv.encode(KEY_HIDDEN_APPS, value) }
 
+    // [Jalur Class]: com.silauncer.cepat.storage.LauncherPreferences
+    // [Penjelasan]: Legacy storage untuk migrasi satu-kali ke Room DB (LauncherAppController). Tidak digunakan untuk penyimpanan aktif baru.
     var appOrder: List<String>
-        get() = decodeString(KEY_APP_ORDER, "")?.split(APP_ORDER_SEPARATOR)?.filter { it.isNotEmpty() } ?: emptyList()
-        set(value) { encode(KEY_APP_ORDER, value.joinToString(APP_ORDER_SEPARATOR)) }
+        get() = kv.decodeString(KEY_APP_ORDER, "")?.split(APP_ORDER_SEPARATOR)?.filter { it.isNotEmpty() } ?: emptyList()
+        set(value) { kv.encode(KEY_APP_ORDER, value.joinToString(APP_ORDER_SEPARATOR)) }
 
     // [Jalur Class]: com.silauncer.cepat.storage.LauncherPreferences
     // [Penjelasan]: Menyimpan nama paket Icon Pack yang aktif ("system_aosp" untuk icon sistem default).
     var iconPack: String
-        get() = decodeString(KEY_ICON_PACK, DEFAULT_ICON_PACK) ?: DEFAULT_ICON_PACK
-        set(value) { encode(KEY_ICON_PACK, value) }
+        get() = kv.decodeString(KEY_ICON_PACK, DEFAULT_ICON_PACK) ?: DEFAULT_ICON_PACK
+        set(value) { kv.encode(KEY_ICON_PACK, value) }
 
     // [Jalur Class]: com.silauncer.cepat.storage.LauncherPreferences
     // [Penjelasan]: Menyimpan tag bahasa aplikasi yang dipilih pengguna ("system", "id", "en").
     var appLanguage: String
-        get() = decodeString(KEY_APP_LANGUAGE, DEFAULT_APP_LANGUAGE) ?: DEFAULT_APP_LANGUAGE
-        set(value) { encode(KEY_APP_LANGUAGE, value) }
-
-    // [Jalur Class]: com.silauncer.cepat.storage.LauncherPreferences
-    // [Penjelasan]: Mendapatkan frekuensi peluncuran aplikasi tertentu berdasarkan nama paket unik untuk penghitungan prediksi.
-    fun getAppLaunchCount(packageName: String): Int {
-        return decodeInt("launch_count_$packageName", 0)
-    }
-
-    // [Jalur Class]: com.silauncer.cepat.storage.LauncherPreferences
-    // [Penjelasan]: Meningkatkan frekuensi peluncuran aplikasi setiap kali diluncurkan untuk melatih model saran pintar.
-    fun incrementAppLaunchCount(packageName: String) {
-        val current = getAppLaunchCount(packageName)
-        encode("launch_count_$packageName", current + 1)
-    }
+        get() = kv.decodeString(KEY_APP_LANGUAGE, DEFAULT_APP_LANGUAGE) ?: DEFAULT_APP_LANGUAGE
+        set(value) { kv.encode(KEY_APP_LANGUAGE, value) }
 
     fun resetToDefaults() {
         // [Jalur Class]: com.silauncer.cepat.storage.LauncherPreferences
@@ -134,20 +84,6 @@ class LauncherPreferences {
 
     companion object {
         private const val MMKV_ID = "silauncer_launcher"
-
-        // [Jalur Class]: com.silauncer.cepat.storage.LauncherPreferences
-        // [Penjelasan]: Cache lazy untuk MMKV instance agar tidak melakukan pemanggilan JNI/native mmkvWithID berulang.
-        private val cachedMMKV: MMKV? by lazy {
-            try {
-                MMKV.mmkvWithID(MMKV_ID)
-            } catch (e: Throwable) {
-                null
-            }
-        }
-
-        // [Jalur Class]: com.silauncer.cepat.storage.LauncherPreferences
-        // [Penjelasan]: Map thread-safe global penampung fallback in-memory untuk menduplikasi fungsionalitas MMKV pada lingkungan JVM/unit test.
-        private val fallbackMap = java.util.concurrent.ConcurrentHashMap<String, Any>()
 
         @Volatile
         private var instance: LauncherPreferences? = null

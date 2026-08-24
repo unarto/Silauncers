@@ -9,6 +9,8 @@
     android:layout_height="match_parent"
     android:background="@android:color/transparent"
     android:clickable="true"
+    android:clipChildren="false"
+    android:clipToPadding="false"
     android:focusable="true">
 
     <!-- [Jalur Class]: app/src/main/res/layout/view_folder_modal.xml -->
@@ -39,6 +41,8 @@
         android:paddingBottom="48dp"
         android:paddingHorizontal="20dp"
         android:clickable="true"
+        android:clipChildren="false"
+        android:clipToPadding="false"
         android:focusable="true">
 
         <EditText
@@ -91,6 +95,8 @@
                 android:layout_height="wrap_content"
                 android:orientation="vertical"
                 android:gravity="center_horizontal"
+                android:clipChildren="false"
+                android:clipToPadding="false"
                 android:padding="12dp">
 
                 <androidx.recyclerview.widget.RecyclerView
@@ -98,6 +104,8 @@
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
                     android:nestedScrollingEnabled="false"
+                    android:clipChildren="false"
+                    android:clipToPadding="false"
                     android:overScrollMode="never" />
 
                 <!-- [Jalur Class]: app/src/main/res/layout/view_folder_modal.xml -->

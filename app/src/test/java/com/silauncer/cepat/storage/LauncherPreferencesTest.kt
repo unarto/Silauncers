@@ -80,21 +80,4 @@ class LauncherPreferencesTest {
         assertEquals(setOf("com.hidden.one", "com.hidden.two"), instance2.hiddenApps)
         assertEquals(listOf("pkg.a", "pkg.b"), instance2.appOrder)
     }
-
-    @Test
-    fun testAppLaunchCountTracking() {
-        // [Jalur Class]: com.silauncer.cepat.storage.LauncherPreferencesTest
-        // [Penjelasan]: Memverifikasi tracking jumlah peluncuran aplikasi bekerja dan terakumulasi dengan benar.
-        val testPkg = "com.silauncer.testapp"
-        assertEquals(0, prefs.getAppLaunchCount(testPkg))
-
-        prefs.incrementAppLaunchCount(testPkg)
-        assertEquals(1, prefs.getAppLaunchCount(testPkg))
-
-        prefs.incrementAppLaunchCount(testPkg)
-        assertEquals(2, prefs.getAppLaunchCount(testPkg))
-
-        val anotherInstance = LauncherPreferences.get()
-        assertEquals(2, anotherInstance.getAppLaunchCount(testPkg))
-    }
 }
